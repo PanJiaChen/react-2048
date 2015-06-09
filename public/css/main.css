@@ -35,6 +35,8 @@
     font-family: "Clear Sans";
     color: #766;
     position: absolute;
+    -webkit-transition:all 5s ease-in-out;
+
 }
 
 .container {
@@ -46,4 +48,40 @@
     outline: none;
     position: relative;
     margin: 100px auto;
+}
+
+.cell-new {
+    webkit-animation-duration: 0.2s;
+    animation-duration: 0.2s;
+    -webkit-animation-name: newTile;
+    animation-name: newTile;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-delay: 0.15s;
+    animation-delay: 0.15s;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
+}
+
+@-webkit-keyframes newTile {
+    from {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    to {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes newTile {
+    from {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    to {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
 }

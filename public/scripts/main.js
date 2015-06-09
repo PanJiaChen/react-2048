@@ -41,8 +41,11 @@ var NumCell=React.createClass({
     },
     numCellClass:function(){
       var classArray=['num-cell'];
-      return  classArray;
-    }
+      if(this.props.gameData.isNew){
+        classArray.push('cell-new')
+      }
+      return  classArray.join(" ");
+    },
     render:function(){
       var numStyle={top: this.numCellTop(),left:this.numCellLeft()}
       return(
