@@ -1,30 +1,49 @@
 .grid-container {
-  -webkit-box-ordinal-group: 2;
-  -webkit-order: 1;
-  -ms-flex-order: 1;
-  order: 1;
-  width: 440px;
-  height: 440px;
-  padding: 5px;
-  background-color: #baa;
-  border-radius: 7px;
-  outline: none;
-  position: relative;
-  margin:100px auto;
+    -webkit-box-ordinal-group: 2;
+    -webkit-order: 1;
+    -ms-flex-order: 1;
+    order: 1;
 }
 
 .grid-cell {
-   width: 100px;
-  height: 100px;
-  margin: 5px;
-  line-height: 90px;
-  display: inline-block;
-  font-size: 55px;
-  font-weight: bold;
-  text-align: center;
-  vertical-align: middle;
-  border-radius: 7px;
-  font-family: "Clear Sans";
-  color: #766;
-  background-color: #dcb;
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    line-height: 90px;
+    display: inline-block;
+    font-size: 55px;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 7px;
+    font-family: "Clear Sans";
+    color: #766;
+    background-color: #dcb;
+}
+
+.num-cell {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    line-height: 90px;
+    display: inline-block;
+    font-size: 55px;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 7px;
+    font-family: "Clear Sans";
+    color: #766;
+    position: absolute;
+}
+
+.container {
+    width: 440px;
+    height: 440px;
+    padding: 5px;
+    background-color: #baa;
+    border-radius: 7px;
+    outline: none;
+    position: relative;
+    margin: 100px auto;
 }

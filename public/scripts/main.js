@@ -30,20 +30,48 @@ var GridContainer=React.createClass({
         )
     }
 })
+var NumCell=React.createClass({
+    numCellTop:function(){
+      var top=getPosTop(this.props.keyCol,this.props.keyRow)
+      return top;
+    },
+    numCellLeft:function(){
+      var left=getPosLeft(this.props.keyCol,this.props.keyRow)
+      return left;
+    },
+    numCellClass:function(){
+      var classArray=['num-cell'];
+      return  classArray;
+    }
+    render:function(){
+      var numStyle={top: this.numCellTop(),left:this.numCellLeft()}
+      return(
+        <div>
+          <div className={this.numCellClass()} style={numStyle}>{this.props.gameData.value}</div>
+        </div>
+      )
+    }
+})
+
 var NumContainer=React.createClass({
     render:function(){
-        var nums=null;
+        var nums=[];
         this.props.gameData.map(function(row,keyRow){
             row.map(function(el,keyCol){
-                console.log(el.value)
-            })
+                var keymark = keyCol+'-'+keyRow+'-'+this.props.gameData[keyCol][keyRow].value;
+                if(this.props.gameData[keyCol][keyRow].value > 0){
+                    nums.push(<NumCell gameData={this.props.gameData[keyCol][keyRow]} key={keymark} keyCol={keyCol} keyRow={keyRow} />);
+                }
+            }.bind(this))
         }.bind(this));
-
         return(
-            null
+          <div className='num-container'>
+            {nums}
+          </div>
         )
     }
 })
+
 var GameContainer=React.createClass({
     render:function(){
         return(
@@ -75,9 +103,11 @@ var React2048=React.createClass({
                 direction='down';
             break;
        }
-       if(direction){
-
-       }
+       if(direction && this.state.gameData.status === 'runing'){
+          var gd = slideTo(direction, this.state.gameData);
+          //console.log(gd);
+          this.setState({gameData: gd});
+        }
     },
     componentDidMount: function () {
         window.addEventListener('keydown', this.handleKeyDown);
