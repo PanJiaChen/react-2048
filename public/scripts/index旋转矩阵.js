@@ -6,8 +6,7 @@ cellSpace = 0.04 * documentWidth;
 gridContainerWidth = 440;
 cellSpace = 5;
 cellSideLength = 100;
-var preGD;
-
+var preGd;
 function init(n) {
     var gameMap = [];
     for (var i = 0; i < n; i++) {
@@ -17,10 +16,10 @@ function init(n) {
                 value: 0,
                 isNew: false,
                 isMerged: false,
-                row: -1,
-                oldRow: -1,
-                column: -1,
-                oldColumn: -1,
+                row:-1,
+                oldRow:-1,
+                column:-1,
+                oldColumn:-1,
             });
         }
         gameMap.push(tmp);
@@ -36,10 +35,10 @@ function getRandom() {
         value: randomNum,
         isNew: true,
         isMerged: false,
-        row: -1,
-        oldRow: -1,
-        column: -1,
-        oldColumn: -1,
+        row:-1,
+        oldRow:-1,
+        column:-1,
+        oldColumn:-1,
     };
 }
 
@@ -62,7 +61,7 @@ function clearnumSetStatus(gd) {
 }
 
 function slideTo(direction, gd) {
-    preGd = gd;
+    preGd=gd;
     switch (direction) {
         case 'up':
             gd = clearnumSetStatus(gd);
@@ -104,6 +103,7 @@ function slideToTop(gd) {
                 gd.numSet[n][i].value = gd.numSet[x][i].value;
                 gd.numSet[n][i].oldRow = x;
                 gd.numSet[n][i].oldColumn = i;
+                console.log(x,i)
 
                 if (n != x) {
                     changed = true; // 标示数组的元素是否有变化
@@ -140,6 +140,8 @@ function slideToTop(gd) {
         for (var t = 0; t < np; t++) {
             if (gd.numSet[t][i].value != 0) {
                 gd.numSet[n][i] = gd.numSet[t][i];
+                gd.numSet[n][i].oldRow = t;
+                gd.numSet[n][i].oldColumn = i;
                 n++;
             }
         }
@@ -153,17 +155,6 @@ function slideToTop(gd) {
         }
     }
     return gd;
-}
-
-function setPosition(gd) {
-    gd.forEach(function(row, rowIndex) {
-        row.forEach(function(tile, columnIndex) {
-            tile.oldRow = tile.row;
-            tile.oldColumn = tile.column;
-            tile.row = rowIndex;
-            tile.column = columnIndex;
-        });
-    });
 }
 
 function slideToBottom(gd) {

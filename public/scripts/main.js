@@ -31,12 +31,19 @@ var GridContainer=React.createClass({
     }
 })
 var NumCell=React.createClass({
-    numCellTop:function(){
-      var top=getPosTop(this.props.keyCol,this.props.keyRow)
+    componentDidMount:function(){
+      var $elmt=$(React.findDOMNode(this.refs.numCell))
+      $elmt.animate({
+          top:this.numCellTop(this.props.keyCol,this.props.keyRow),
+          left:this.numCellLeft(this.props.keyCol,this.props.keyRow)
+      }, 1000);
+    },
+    numCellTop:function(row,column){
+      var top=getPosTop(row,column)
       return top;
     },
-    numCellLeft:function(){
-      var left=getPosLeft(this.props.keyCol,this.props.keyRow)
+    numCellLeft:function(row,column){
+      var left=getPosLeft(row,column)
       return left;
     },
     numCellClass:function(){
@@ -47,10 +54,14 @@ var NumCell=React.createClass({
       return  classArray.join(" ");
     },
     render:function(){
-      var numStyle={top: this.numCellTop(),left:this.numCellLeft()}
+      var oldRow=this.props.keyCol;
+      var oldColumn=this.props.keyRow;
+      console.log(this.props.gameData.oldRow,this.props.gameData.oldColumn)
+      var numStyle={top: this.numCellTop(oldRow,oldColumn),left:this.numCellLeft(oldRow,oldColumn)};
+      // console.log(this.props.gameData.oldRow,this.props.gameData.oldColumn)
       return(
         <div>
-          <div className={this.numCellClass()} style={numStyle}>{this.props.gameData.value}</div>
+          <div className={this.numCellClass()} ref='numCell' style={numStyle}>{this.props.gameData.value}</div>
         </div>
       )
     }
@@ -107,8 +118,8 @@ var React2048=React.createClass({
             break;
        }
        if(direction && this.state.gameData.status === 'runing'){
+          setPosition(this.state.gameData.numSet);
           var gd = slideTo(direction, this.state.gameData);
-          //console.log(gd);
           this.setState({gameData: gd});
         }
     },
