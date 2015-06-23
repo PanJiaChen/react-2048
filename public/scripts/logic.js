@@ -28,9 +28,13 @@ function init(n) {
     return gameMap;
 }
 
+//在特定位置生成数字和其必要属性
 function getRandom() {
+    //可设置概率模式
     // var set = [2, 2, 2, 2, 4, 4];
     // var num = set[Math.floor(Math.random() * set.length)];
+
+    // 50%概率模式
     var randomNum = Math.random() < 0.5 ? 2 : 4
     return {
         value: randomNum,
@@ -248,8 +252,9 @@ function checkGameStatusAndAddTile(gd, MaxScore) {
     //     gd.status = 'lose';
     //     return gd;
     // }
+
+    //生成空余地方的数组，在其中随即一个位置生成一个新数字;
     var pos = pool[Math.floor(Math.random() * pool.length)];
-    // console.log(pool)
     var tilte = getRandom();
     return fillTile(gd, pos, tilte);
 }
@@ -283,6 +288,7 @@ function startGame() {
     return gd;
 }
 
+//生成新数字
 function addNewNum(gd, MaxScore) {
     var gd = checkGameStatusAndAddTile(gd, MaxScore);
     return gd;

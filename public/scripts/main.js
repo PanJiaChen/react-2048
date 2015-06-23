@@ -1,3 +1,4 @@
+
 var GridContainer=React.createClass({
     render:function(){
         return(
@@ -30,6 +31,7 @@ var GridContainer=React.createClass({
         )
     }
 })
+
 var NumCell=React.createClass({
     componentDidMount:function(){
       var $elmt=$(React.findDOMNode(this.refs.numCell))
@@ -96,12 +98,13 @@ var GameContainer=React.createClass({
         )
     }
 })
+
 var React2048=React.createClass({
     getInitialState:function(){
         return {gameData:startGame()};
     },
     handleKeyDown:function(event){
-        event.preventDefault;
+       event.preventDefault;
        var direction = false;
        switch(event.which){
             case 37:
@@ -137,4 +140,5 @@ var React2048=React.createClass({
         )
     }
 })
+
 React.render(<React2048 />, document.getElementById('container'));
