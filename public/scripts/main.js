@@ -19,12 +19,12 @@ var NumCell=React.createClass({
           left:this.numCellLeft(this.props.keyCol,this.props.keyRow)
       }, 1000);
     },
-    numCellTop:function(row,column){
-      var top=getPosTop(row,column)
+    numCellTop:function(column,row){
+      var top=getPosTop(column,row)
       return top;
     },
-    numCellLeft:function(row,column){
-      var left=getPosLeft(row,column)
+    numCellLeft:function(column,row){
+      var left=getPosLeft(column,row)
       return left;
     },
     numCellClass:function(){
@@ -32,12 +32,12 @@ var NumCell=React.createClass({
       if(this.props.gameData.isNew){
         classArray.push('cell-new')
       }
+      
       return  classArray.join(" ");
     },
     render:function(){
       var oldRow=this.props.keyCol;
       var oldColumn=this.props.keyRow;
-      console.log(this.props.gameData.oldRow,this.props.gameData.oldColumn)
       var numStyle={top: this.numCellTop(oldRow,oldColumn),left:this.numCellLeft(oldRow,oldColumn)};
       return(
           <div className={this.numCellClass()} ref='numCell' style={numStyle}>{this.props.gameData.value}</div>
@@ -48,12 +48,11 @@ var NumCell=React.createClass({
 var NumContainer=React.createClass({
     render:function(){
         var nums=[];
-        console.log(this.props.gd)
         this.props.gd.map(function(row,keyRow){
             row.map(function(el,keyCol){
                 var keymark = keyCol+'-'+keyRow+'-'+this.props.gd[keyCol][keyRow].value;
                 if(this.props.gd[keyCol][keyRow].value > 0){
-                    nums.push(<NumCell gameData={this.props.gd[keyCol][keyRow]} key={keymark} keyCol={keyCol} keyRow={keyRow} />);
+                    nums.push(<NumCell gameData={this.props.gd[keyCol][keyRow]} keyRow={keyRow} keyCol={keyCol}  />);
                 }
             }.bind(this))
         }.bind(this));
@@ -75,9 +74,8 @@ var React2048=React.createClass({
        if (event.keyCode >= 37 && event.keyCode <= 40) {
   
             var direction = event.keyCode - 37;
-            console.log(this.state.gameData)
             var gd = this.state.gameData.move(direction)
-            this.setState({gameData: this.state.gameData.move(direction)});
+            this.setState({gameData: gd});
           }
 
     },

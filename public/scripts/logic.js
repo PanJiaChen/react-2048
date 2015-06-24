@@ -277,8 +277,8 @@ Game.prototype.checkGameStatusAndAddNum = function() {
                 state = true;
             } else if (elem.value === 0) {
                 pool.push({
-                    x: keyRow,
-                    y: keyCol
+                    x: keyCol,
+                    y: keyRow
                 });
             }
         });
@@ -296,7 +296,9 @@ Game.prototype.checkGameStatusAndAddNum = function() {
     //生成空余地方的数组，在其中随即一个位置生成一个新数字;
     var pos = pool[Math.floor(Math.random() * pool.length)];
     var numValue = getRandomValue();
+    console.log('x:'+pos.x+'y:'+pos.y+'--value: '+numValue)
     this.gd[pos.x][pos.y] = this.addTile(numValue, pos.x, pos.y)
+    // console.log(this.gd[pos.x][pos.y].isNew)
 }
 
 
@@ -332,6 +334,7 @@ Game.prototype.initNum = function(n) {
 
 Game.prototype.move = function(direction) {
     // 0 -> left, 1 -> up, 2 -> right, 3 -> down
+
     this.clearOldTiles();
     for (var i = 0; i < direction; ++i) {
         this.gd = rotateLeft(this.gd);
@@ -350,8 +353,8 @@ Game.prototype.move = function(direction) {
 Game.prototype.clearOldTiles = function() {
     this.gd.forEach(function(row, keyRow) {
         row.forEach(function(elem, keyCol) {
-            this.isNew = false;
-            this.isMerged = false;
+            elem.isNew = false;
+            elem.isMerged = false;
         });
     });
 };
@@ -381,9 +384,13 @@ Game.prototype.moveLeft = function() {
                 var tile1 = targetTile;
                 targetTile = this.addTile(targetTile.value);
                 tile1.mergedInto = targetTile;
+
                 var tile2 = currentRow.shift();
                 tile2.mergedInto = targetTile;
                 targetTile.value += tile2.value;
+                targetTile.isNew=false;
+                targetTile.isMerged=true;
+                console.log(targetTile)
             }
             resultRow[target] = targetTile;
             this.won |= (targetTile.value == 2048);
@@ -395,21 +402,45 @@ Game.prototype.moveLeft = function() {
 };
 
 
-var Tile = function(value, row, column) {
-    console.log(value, row, column)
+var Tile = function(value, row, column, isNew) {
     this.value = value || 0;
     this.row = row || -1;
     this.column = column || -1;
     this.oldRow = -1;
     this.oldColumn = -1;
     this.isMerged = false;
-    this.isNew = false;
+    this.isNew = isNew || true;
 };
 
 Game.prototype.addTile = function() {
     var res = new Tile;
     Tile.apply(res, arguments);
     return res;
+};
+
+// Tile.prototype.isNew = function() {
+//     return this.oldRow == -1 && !this.isMerged;
+// };
+
+Tile.prototype.hasMoved = function() {
+    return (this.fromRow() != -1 && (this.fromRow() != this.toRow() || this.fromColumn() != this.toColumn())) ||
+        this.mergedInto;
+};
+
+Tile.prototype.fromRow = function() {
+    return this.mergedInto ? this.row : this.oldRow;
+};
+
+Tile.prototype.fromColumn = function() {
+    return this.mergedInto ? this.column : this.oldColumn;
+};
+
+Tile.prototype.toRow = function() {
+    return this.mergedInto ? this.mergedInto.row : this.row;
+};
+
+Tile.prototype.toColumn = function() {
+    return this.mergedInto ? this.mergedInto.column : this.column;
 };
 
 
