@@ -1,34 +1,13 @@
-
 var GridContainer=React.createClass({
     render:function(){
-        return(
-           <div className="grid-container">
-            <div className="grid-row">
-              <div className="grid-cell"></div>
-              <div className="grid-cell"></div>
-              <div className="grid-cell"></div>
-              <div className="grid-cell"></div>
-            </div>
-            <div className="grid-row">
-              <div className="grid-cell"></div>
-              <div className="grid-cell"></div>
-              <div className="grid-cell"></div>
-              <div className="grid-cell"></div>
-            </div>
-            <div className="grid-row">
-              <div className="grid-cell"></div>
-              <div className="grid-cell"></div>
-              <div className="grid-cell"></div>
-              <div className="grid-cell"></div>
-            </div>
-            <div className="grid-row">
-              <div className="grid-cell"></div>
-              <div className="grid-cell"></div>
-              <div className="grid-cell"></div>
-              <div className="grid-cell"></div>
-            </div>
-          </div>
-        )
+      var grid=this.props.gameData.map(function(row){
+          return <div className="grid-row">{row.map(function(){ return <div className="grid-cell"></div>})}</div>
+      })
+      return(
+            <div className="grid-container">
+              {grid}
+            </div>          
+      )
     }
 })
 
@@ -60,11 +39,8 @@ var NumCell=React.createClass({
       var oldColumn=this.props.keyRow;
       console.log(this.props.gameData.oldRow,this.props.gameData.oldColumn)
       var numStyle={top: this.numCellTop(oldRow,oldColumn),left:this.numCellLeft(oldRow,oldColumn)};
-      // console.log(this.props.gameData.oldRow,this.props.gameData.oldColumn)
       return(
-        <div>
           <div className={this.numCellClass()} ref='numCell' style={numStyle}>{this.props.gameData.value}</div>
-        </div>
       )
     }
 })
@@ -72,11 +48,12 @@ var NumCell=React.createClass({
 var NumContainer=React.createClass({
     render:function(){
         var nums=[];
-        this.props.gameData.map(function(row,keyRow){
+        console.log(this.props.gd)
+        this.props.gd.map(function(row,keyRow){
             row.map(function(el,keyCol){
-                var keymark = keyCol+'-'+keyRow+'-'+this.props.gameData[keyCol][keyRow].value;
-                if(this.props.gameData[keyCol][keyRow].value > 0){
-                    nums.push(<NumCell gameData={this.props.gameData[keyCol][keyRow]} key={keymark} keyCol={keyCol} keyRow={keyRow} />);
+                var keymark = keyCol+'-'+keyRow+'-'+this.props.gd[keyCol][keyRow].value;
+                if(this.props.gd[keyCol][keyRow].value > 0){
+                    nums.push(<NumCell gameData={this.props.gd[keyCol][keyRow]} key={keymark} keyCol={keyCol} keyRow={keyRow} />);
                 }
             }.bind(this))
         }.bind(this));
@@ -88,43 +65,21 @@ var NumContainer=React.createClass({
     }
 })
 
-var GameContainer=React.createClass({
-    render:function(){
-        return(
-            <div className='container'>
-                <GridContainer />
-                <NumContainer gameData={this.props.gameData.numSet} />
-            </div>
-        )
-    }
-})
 
 var React2048=React.createClass({
     getInitialState:function(){
-        return {gameData:startGame()};
+        return {gameData:new Game};
     },
     handleKeyDown:function(event){
        event.preventDefault;
-       var direction = false;
-       switch(event.which){
-            case 37:
-                direction='left';
-            break;
-            case 38:
-                direction='up';
-            break;
-            case 39:
-                direction='right';
-            break;
-            case 40:
-                direction='down';
-            break;
-       }
-       if(direction && this.state.gameData.status === 'runing'){
-          setPosition(this.state.gameData.numSet);
-          var gd = slideTo(direction, this.state.gameData);
-          this.setState({gameData: gd});
-        }
+       if (event.keyCode >= 37 && event.keyCode <= 40) {
+  
+            var direction = event.keyCode - 37;
+            console.log(this.state.gameData)
+            var gd = this.state.gameData.move(direction)
+            this.setState({gameData: this.state.gameData.move(direction)});
+          }
+
     },
     componentDidMount: function () {
         window.addEventListener('keydown', this.handleKeyDown);
@@ -134,8 +89,9 @@ var React2048=React.createClass({
     },
     render:function(){
         return(
-            <div className='react2048'>
-                <GameContainer gameData={this.state.gameData} />
+            <div className='container'>
+                <GridContainer gameData={this.state.gameData.gd} />
+                <NumContainer gd={this.state.gameData.gd} />
             </div>
         )
     }

@@ -8,25 +8,7 @@ cellSpace = 5;
 cellSideLength = 100;
 var preGD;
 
-function init(n) {
-    var gameMap = [];
-    for (var i = 0; i < n; i++) {
-        var tmp = [];
-        for (var j = 0; j < n; j++) {
-            tmp.push({
-                value: 0,
-                isNew: false,
-                isMerged: false,
-                row: -1,
-                oldRow: -1,
-                column: -1,
-                oldColumn: -1,
-            });
-        }
-        gameMap.push(tmp);
-    }
-    return gameMap;
-}
+
 
 //在特定位置生成数字和其必要属性
 function getRandom() {
@@ -72,17 +54,14 @@ function slideTo(direction, gd) {
             gd = clearnumSetStatus(gd);
             gd = slideToTop(gd);
             break;
-
         case 'down':
             gd = clearnumSetStatus(gd);
             gd = slideToBottom(gd);
             break;
-
         case 'left':
             gd = clearnumSetStatus(gd);
             gd = slideToLeft(gd);
             break;
-
         case 'right':
             gd = clearnumSetStatus(gd);
             gd = slideToRight(gd);
@@ -227,43 +206,7 @@ function MirrorV(gd) {
     return gd;
 }
 
-function checkGameStatusAndAddTile(gd, MaxScore) {
 
-    var state;
-    var pool = [];
-    gd.numSet.forEach(function(row, keyRow) {
-        row.forEach(function(elem, keyCol) {
-            if (elem.value >= MaxScore) {
-                state = true;
-            } else if (elem.value === 0) {
-                pool.push({
-                    x: keyRow,
-                    y: keyCol
-                });
-            }
-        });
-    });
-    //console.log(gd.numSet);
-    // if (state === true) {
-    //     gd.status = 'win';
-    //     return gd;
-    // }
-    // if (pool.length === 0) {
-    //     gd.status = 'lose';
-    //     return gd;
-    // }
-
-    //生成空余地方的数组，在其中随即一个位置生成一个新数字;
-    var pos = pool[Math.floor(Math.random() * pool.length)];
-    var tilte = getRandom();
-    return fillTile(gd, pos, tilte);
-}
-
-function fillTile(gd, pos, tilte) {
-    // console.log(pos.x, pos.x, tilte)
-    gd.numSet[pos.x][pos.y] = tilte;
-    return gd;
-}
 
 function startGame() {
     var score = 0;
@@ -288,8 +231,197 @@ function startGame() {
     return gd;
 }
 
-//生成新数字
-function addNewNum(gd, MaxScore) {
-    var gd = checkGameStatusAndAddTile(gd, MaxScore);
-    return gd;
+
+
+function init(n) {
+    var gameMap = [];
+    for (var i = 0; i < n; i++) {
+        var tmp = [];
+        for (var j = 0; j < n; j++) {
+            tmp.push({
+                value: 0,
+                isNew: false,
+                isMerged: false,
+                row: -1,
+                oldRow: -1,
+                column: -1,
+                oldColumn: -1,
+            });
+        }
+        gameMap.push(tmp);
+    }
+    return gameMap;
+}
+
+//
+
+
+var Game = function() {
+    this.score = 0;
+    this.status = 'runing';
+    this.MaxScore = 2048;
+    this.gd = this.initNum(Game.size);
+    for (i = 0; i < 2; i++) {
+        this.checkGameStatusAndAddNum();
+    }
+}
+
+Game.size = 4;
+
+Game.prototype.checkGameStatusAndAddNum = function() {
+    var state;
+    var pool = [];
+    this.gd.forEach(function(row, keyRow) {
+        row.forEach(function(elem, keyCol) {
+            if (elem.value >= this.MaxScore) {
+                state = true;
+            } else if (elem.value === 0) {
+                pool.push({
+                    x: keyRow,
+                    y: keyCol
+                });
+            }
+        });
+    });
+    //console.log(gd.numSet);
+    // if (state === true) {
+    //     gd.status = 'win';
+    //     return gd;
+    // }
+    // if (pool.length === 0) {
+    //     gd.status = 'lose';
+    //     return gd;
+    // }
+
+    //生成空余地方的数组，在其中随即一个位置生成一个新数字;
+    var pos = pool[Math.floor(Math.random() * pool.length)];
+    var numValue = getRandomValue();
+    this.gd[pos.x][pos.y] = this.addTile(numValue, pos.x, pos.y)
+}
+
+
+//在特定位置生成数字和其必要属性
+function getRandomValue() {
+    //可设置概率模式
+    // var set = [2, 2, 2, 2, 4, 4];
+    // var num = set[Math.floor(Math.random() * set.length)];
+
+    // 50%概率模式
+    var randomNumValue = Math.random() < 0.5 ? 2 : 4
+    return randomNumValue;
+}
+Game.prototype.initNum = function(n) {
+    var gameMap = [];
+    for (var i = 0; i < n; i++) {
+        var tmp = [];
+        for (var j = 0; j < n; j++) {
+            tmp.push({
+                value: 0,
+                isNew: false,
+                isMerged: false,
+                row: -1,
+                column: -1,
+                oldRow: -1,
+                oldColumn: -1,
+            });
+        }
+        gameMap.push(tmp);
+    }
+    return gameMap;
+}
+
+Game.prototype.move = function(direction) {
+    // 0 -> left, 1 -> up, 2 -> right, 3 -> down
+    this.clearOldTiles();
+    for (var i = 0; i < direction; ++i) {
+        this.gd = rotateLeft(this.gd);
+    }
+    var hasChanged = this.moveLeft();
+    for (var i = direction; i < 4; ++i) {
+        this.gd = rotateLeft(this.gd);
+    }
+    if (hasChanged) {
+        this.checkGameStatusAndAddNum();
+    }
+    this.setPositions();
+    return this;
+};
+
+Game.prototype.clearOldTiles = function() {
+    this.gd.forEach(function(row, keyRow) {
+        row.forEach(function(elem, keyCol) {
+            this.isNew = false;
+            this.isMerged = false;
+        });
+    });
+};
+
+var rotateLeft = function(matrix) {
+    var rows = matrix.length;
+    var columns = matrix[0].length;
+    var res = [];
+    for (var row = 0; row < rows; ++row) {
+        res.push([]);
+        for (var column = 0; column < columns; ++column) {
+            res[row][column] = matrix[column][columns - row - 1];
+        }
+    }
+    return res;
+};
+Game.prototype.moveLeft = function() {
+    var hasChanged = false;
+    for (var row = 0; row < Game.size; ++row) {
+        var currentRow = this.gd[row].filter(function(tile) {
+            return tile.value != 0;
+        });
+        var resultRow = [];
+        for (var target = 0; target < Game.size; ++target) {
+            var targetTile = currentRow.length ? currentRow.shift() : this.addTile();
+            if (currentRow.length > 0 && currentRow[0].value == targetTile.value) {
+                var tile1 = targetTile;
+                targetTile = this.addTile(targetTile.value);
+                tile1.mergedInto = targetTile;
+                var tile2 = currentRow.shift();
+                tile2.mergedInto = targetTile;
+                targetTile.value += tile2.value;
+            }
+            resultRow[target] = targetTile;
+            this.won |= (targetTile.value == 2048);
+            hasChanged |= (targetTile.value != this.gd[row][target].value);
+        }
+        this.gd[row] = resultRow;
+    }
+    return hasChanged;
+};
+
+
+var Tile = function(value, row, column) {
+    console.log(value, row, column)
+    this.value = value || 0;
+    this.row = row || -1;
+    this.column = column || -1;
+    this.oldRow = -1;
+    this.oldColumn = -1;
+    this.isMerged = false;
+    this.isNew = false;
+};
+
+Game.prototype.addTile = function() {
+    var res = new Tile;
+    Tile.apply(res, arguments);
+    return res;
+};
+
+
+
+Game.prototype.setPositions = function(gd) {
+    this.gd.forEach(function(row, rowIndex) {
+        row.forEach(function(tile, columnIndex) {
+
+            tile.oldRow = tile.row;
+            tile.oldColumn = tile.column;
+            tile.row = rowIndex;
+            tile.column = columnIndex;
+        });
+    });
 }
