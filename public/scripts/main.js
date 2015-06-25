@@ -1,3 +1,4 @@
+
 var GridContainer=React.createClass({
     render:function(){
       var grid=this.props.gameData.map(function(row){
@@ -12,13 +13,17 @@ var GridContainer=React.createClass({
 })
 
 var NumCell=React.createClass({
-    componentDidMount:function(){
-      var $elmt=$(React.findDOMNode(this.refs.numCell))
-      $elmt.animate({
-          top:this.numCellTop(this.props.keyCol,this.props.keyRow),
-          left:this.numCellLeft(this.props.keyCol,this.props.keyRow)
-      }, 1000);
-    },
+    // componentDidUpdate :function(){
+    //   var gameData=this.props.gameData;
+    //   var $elmt=$(React.findDOMNode(this.refs.numCell));
+    //   if(!gameData.isNew){
+    //     $elmt.animate({
+    //       top:this.numCellTop(gameData.row,gameData.column),
+    //       left:this.numCellLeft(gameData.row,gameData.column)
+    //     }, 400);
+    //   }
+      
+    // },
     numCellTop:function(column,row){
       var top=getPosTop(column,row)
       return top;
@@ -32,13 +37,15 @@ var NumCell=React.createClass({
       if(this.props.gameData.isNew){
         classArray.push('cell-new')
       }
-      
       return  classArray.join(" ");
     },
     render:function(){
-      var oldRow=this.props.keyCol;
-      var oldColumn=this.props.keyRow;
-      var numStyle={top: this.numCellTop(oldRow,oldColumn),left:this.numCellLeft(oldRow,oldColumn)};
+      var gameData=this.props.gameData;
+      var oldRow=gameData.row;
+      var oldColumn=gameData.column;
+      // if(gameData.isNew){
+         var numStyle={top: this.numCellTop(oldRow,oldColumn),left:this.numCellLeft(oldRow,oldColumn)};
+      // }
       return(
           <div className={this.numCellClass()} ref='numCell' style={numStyle}>{this.props.gameData.value}</div>
       )
@@ -52,7 +59,7 @@ var NumContainer=React.createClass({
             row.map(function(el,keyCol){
                 var keymark = keyCol+'-'+keyRow+'-'+this.props.gd[keyCol][keyRow].value;
                 if(this.props.gd[keyCol][keyRow].value > 0){
-                    nums.push(<NumCell gameData={this.props.gd[keyCol][keyRow]} keyRow={keyRow} keyCol={keyCol}  />);
+                    nums.push(<NumCell gameData={this.props.gd[keyCol][keyRow]} />);
                 }
             }.bind(this))
         }.bind(this));
