@@ -264,6 +264,7 @@ var Game = function() {
     for (i = 0; i < 2; i++) {
         this.checkGameStatusAndAddNum();
     }
+    this.setPositions();
 }
 
 Game.size = 4;
@@ -296,9 +297,7 @@ Game.prototype.checkGameStatusAndAddNum = function() {
     //生成空余地方的数组，在其中随即一个位置生成一个新数字;
     var pos = pool[Math.floor(Math.random() * pool.length)];
     var numValue = getRandomValue();
-    console.log('x:'+pos.x+'y:'+pos.y+'--value: '+numValue)
-    this.gd[pos.x][pos.y] = this.addTile(numValue, pos.x, pos.y)
-    // console.log(this.gd[pos.x][pos.y].isNew)
+    this.gd[pos.y][pos.x] = this.addTile(numValue)
 }
 
 
@@ -388,9 +387,8 @@ Game.prototype.moveLeft = function() {
                 var tile2 = currentRow.shift();
                 tile2.mergedInto = targetTile;
                 targetTile.value += tile2.value;
-                targetTile.isNew=false;
-                targetTile.isMerged=true;
-                console.log(targetTile)
+                targetTile.isNew = false;
+                targetTile.isMerged = true;
             }
             resultRow[target] = targetTile;
             this.won |= (targetTile.value == 2048);
@@ -402,7 +400,7 @@ Game.prototype.moveLeft = function() {
 };
 
 
-var Tile = function(value, row, column, isNew) {
+var Tile = function(value, column, row, isNew) {
     this.value = value || 0;
     this.row = row || -1;
     this.column = column || -1;
@@ -428,27 +426,26 @@ Tile.prototype.hasMoved = function() {
 };
 
 Tile.prototype.fromRow = function() {
-    return this.mergedInto ? this.row : this.oldRow;
+    return this.isMerged ? this.row : this.oldRow;
 };
 
 Tile.prototype.fromColumn = function() {
-    return this.mergedInto ? this.column : this.oldColumn;
+    return this.isMerged ? this.column : this.oldColumn;
 };
 
 Tile.prototype.toRow = function() {
-    return this.mergedInto ? this.mergedInto.row : this.row;
+    return this.isMerged ? this.mergedInto.row : this.row;
 };
 
 Tile.prototype.toColumn = function() {
-    return this.mergedInto ? this.mergedInto.column : this.column;
+    return this.isMerged ? this.mergedInto.column : this.column;
 };
 
 
 
-Game.prototype.setPositions = function(gd) {
+Game.prototype.setPositions = function() {
     this.gd.forEach(function(row, rowIndex) {
         row.forEach(function(tile, columnIndex) {
-
             tile.oldRow = tile.row;
             tile.oldColumn = tile.column;
             tile.row = rowIndex;
