@@ -1,5 +1,8 @@
-body,html{
+body,
+html {
     font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
 .grid-container {
@@ -7,6 +10,59 @@ body,html{
     -webkit-order: 1;
     -ms-flex-order: 1;
     order: 1;
+}
+
+.wrapper {
+    width: 450px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.score {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.nowScore,
+.bestScore {
+    position: relative;
+    display: inline-block;
+    background: #bbada0;
+    padding: 15px 25px;
+    font-size: 25px;
+    height: 25px;
+    line-height: 47px;
+    font-weight: bold;
+    border-radius: 3px;
+    color: white;
+    margin-top: 8px;
+    text-align: center;
+}
+
+.nowScore:after,
+.bestScore:after {
+    position: absolute;
+    width: 100%;
+    top: 10px;
+    left: 0;
+    text-transform: uppercase;
+    font-size: 13px;
+    line-height: 13px;
+    text-align: center;
+    color: #eee4da;
+}
+
+.nowScore {
+    margin-right: 5px;
+}
+
+.nowScore:after {
+    content: 'score';
+}
+
+.bestScore:after {
+    content: 'bestScore';
 }
 
 .grid-cell {
@@ -49,7 +105,6 @@ body,html{
     border-radius: 7px;
     outline: none;
     position: relative;
-    margin: 100px auto;
 }
 
 .cell-new {
@@ -205,4 +260,42 @@ body,html{
 .cell-color-2048 {
     background: #E21B5A;
     border-color: #B60022;
+}
+
+.playAgain {
+    position: relative;
+    font: 15px Calibri, Arial, sans-serif;
+    /* text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4);*/
+    
+    text-decoration: none !important;
+    display: inline-block;
+    cursor: pointer;
+    padding: 6px 20px;
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    background-image: url('../images/button_bg.png');
+    background-position: bottom left, top right, 0 0, 0 0;
+    font-size: 30px;    
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    -moz-box-shadow: 0 0 1px #fff inset;
+    -webkit-box-shadow: 0 0 1px #fff inset;
+    box-shadow: 0 0 1px #fff inset;
+    -webkit-transition: background-position 1s;
+    -moz-transition: background-position 1s;
+    transition: background-position 1s;
+    color: #fff;
+    border: 1px solid #84acc3 !important;
+    background-color: red;
+    background-image: url('../img/button_bg.png'), url('../img/button_bg.png'), -moz-radial-gradient( center bottom, circle, rgba(89, 208, 244, 1) 0, rgba(89, 208, 244, 0) 100px), -moz-linear-gradient(#4fbbf7, #3faeeb);
+    background-image: url('../img/button_bg.png'), url('../img/button_bg.png'), -webkit-gradient( radial, 50% 100%, 0, 50% 100%, 100, from(rgba(0, 153, 153, 1)), to(rgba(51, 204, 204, 0))), -webkit-gradient(linear, 0% 0%, 0% 100%, from(#06066f), to(#04356c));
+}
+
+.playAgain:hover {
+    background-color: red;
+    background-image: url('../img/button_bg.png'), url('../img/button_bg.png'), -moz-radial-gradient( center bottom, circle, rgba(109, 217, 250, 1) 0, rgba(109, 217, 250, 0) 100px), -moz-linear-gradient(#63c7fe, #58bef7);
+    background-image: url('../img/button_bg.png'), url('../img/button_bg.png'), -webkit-gradient( radial, 50% 100%, 0, 50% 100%, 100, from(rgba(109, 217, 250, 1)), to(rgba(109, 217, 250, 0))), -webkit-gradient(linear, 0% 0%, 0% 100%, from(#63c7fe), to(#58bef7));
+    background-position: top left;
+    background-position: top left, bottom right, 0 0, 0 0;
 }
