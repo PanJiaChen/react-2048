@@ -13,17 +13,14 @@ var GridContainer=React.createClass({
 })
 
 var NumCell=React.createClass({
-    // componentDidUpdate :function(){
-    //   var gameData=this.props.gameData;
-    //   var $elmt=$(React.findDOMNode(this.refs.numCell));
-    //   if(!gameData.isNew){
-    //     $elmt.animate({
-    //       top:this.numCellTop(gameData.row,gameData.column),
-    //       left:this.numCellLeft(gameData.row,gameData.column)
-    //     }, 400);
-    //   }
-      
-    // },
+    componentDidUpdate :function(){
+      var gameData=this.props.gameData;
+      var $elmt=$(React.findDOMNode(this.refs.numCell));
+        $elmt.animate({
+          top:this.numCellTop(gameData.row,gameData.column),
+          left:this.numCellLeft(gameData.row,gameData.column)
+        }, 300);
+    },
     numCellTop:function(column,row){
       var top=getPosTop(column,row)
       return top;
@@ -33,19 +30,30 @@ var NumCell=React.createClass({
       return left;
     },
     numCellClass:function(){
+      var gameData=this.props.gameData;
       var classArray=['num-cell'];
-      if(this.props.gameData.isNew){
+
+      var cellValue=gameData.value;
+      classArray.push('cell-color-'+cellValue)
+
+      if(gameData.isNew){
         classArray.push('cell-new')
       }
+
+      if(gameData.isMerged){
+        classArray.push('cell-merged')
+      }
+
       return  classArray.join(" ");
     },
     render:function(){
       var gameData=this.props.gameData;
-      var oldRow=gameData.row;
-      var oldColumn=gameData.column;
-      // if(gameData.isNew){
-         var numStyle={top: this.numCellTop(oldRow,oldColumn),left:this.numCellLeft(oldRow,oldColumn)};
-      // }
+      var row=gameData.oldRow!=-1?gameData.oldRow:gameData.row;
+      var column=gameData.oldColumn!=-1?gameData.oldColumn:gameData.column;
+      
+         var numStyle={top: this.numCellTop(row,column),left:this.numCellLeft(row,column)};
+          console.log(numStyle)
+      
       return(
           <div className={this.numCellClass()} ref='numCell' style={numStyle}>{this.props.gameData.value}</div>
       )
@@ -57,9 +65,9 @@ var NumContainer=React.createClass({
         var nums=[];
         this.props.gd.map(function(row,keyRow){
             row.map(function(el,keyCol){
-                var keymark = keyCol+'-'+keyRow+'-'+this.props.gd[keyCol][keyRow].value;
-                if(this.props.gd[keyCol][keyRow].value > 0){
-                    nums.push(<NumCell gameData={this.props.gd[keyCol][keyRow]} />);
+                var keymark = keyCol+'-'+keyRow+'-'+this.props.gd[keyRow][keyCol].value;
+                if(this.props.gd[keyRow][keyCol].value > 0){
+                    nums.push(<NumCell gameData={this.props.gd[keyRow][keyCol]} />);
                 }
             }.bind(this))
         }.bind(this));
