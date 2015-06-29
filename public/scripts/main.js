@@ -1,4 +1,3 @@
-
 var GridContainer=React.createClass({
     render:function(){
       var grid=this.props.gameData.map(function(row){
@@ -79,10 +78,37 @@ var NumContainer=React.createClass({
     }
 })
 
+var Header=React.createClass({
+    render:function(){
+      return(
+        <div className='header'>
+            <h1 className="title">2048</h1>
+            <ToolsBar />
+            <div className='playAgain' onClick={this.props.handleNewGame}>new game</div>
+        </div>
+        
+      )
+    }
+})
+
+var ToolsBar =React.createClass({
+    render:function(){
+      return(
+        <div className='score'>
+            <div className='nowScore'>0</div>
+            <div className='bestScore'>2048</div>
+        </div>
+        
+      )
+    }
+})
 
 var React2048=React.createClass({
     getInitialState:function(){
         return {gameData:new Game};
+    },
+    handleNewGame:function(){
+      this.setState({gameData: new Game});
     },
     handleKeyDown:function(event){
        event.preventDefault;
@@ -91,6 +117,7 @@ var React2048=React.createClass({
             var direction = event.keyCode - 37;
             var gd = this.state.gameData.move(direction)
             this.setState({gameData: gd});
+
           }
 
     },
@@ -102,10 +129,13 @@ var React2048=React.createClass({
     },
     render:function(){
         return(
+          <div className='wrapper'>
+            <Header handleNewGame={this.handleNewGame}  />
             <div className='container'>
                 <GridContainer gameData={this.state.gameData.gd} />
                 <NumContainer gd={this.state.gameData.gd} />
             </div>
+          </div>
         )
     }
 })
