@@ -259,7 +259,8 @@ function init(n) {
 var Game = function() {
     this.score = 0;
     this.status = 'runing';
-    this.MaxScore = 2048;
+    this.bestScore = window.localStorage.getItem('bestScore');
+    this.bestScore = this.bestScore ? this.bestScore : 0;
     this.gd = this.initNum(Game.size);
     for (i = 0; i < 2; i++) {
         this.checkGameStatusAndAddNum();
@@ -383,15 +384,18 @@ Game.prototype.moveLeft = function() {
                 var tile1 = targetTile;
                 targetTile = this.addTile(targetTile.value);
                 tile1.mergedInto = targetTile;
-
                 var tile2 = currentRow.shift();
                 tile2.mergedInto = targetTile;
                 targetTile.value += tile2.value;
                 targetTile.isNew = false;
                 targetTile.isMerged = true;
+                this.score += targetTile.value;
+                if (this.score > this.bestScore) {
+                    this.bestScore = this.score;
+                    window.localStorage.setItem('bestScore', this.bestScore);
+                }
             }
             resultRow[target] = targetTile;
-            this.won |= (targetTile.value == 2048);
             hasChanged |= (targetTile.value != this.gd[row][target].value);
         }
         this.gd[row] = resultRow;

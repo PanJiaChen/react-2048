@@ -18,6 +18,10 @@ html {
     position: relative;
 }
 
+.title{
+    color:rgba(235, 67, 35, 0.75);
+    font-size: 36px;
+}
 .score {
     position: absolute;
     right: 0;
@@ -28,8 +32,8 @@ html {
 .bestScore {
     position: relative;
     display: inline-block;
-    background: #bbada0;
-    padding: 15px 25px;
+    background: rgba(37, 172, 162, 0.75);
+    padding: 15px 40px;
     font-size: 25px;
     height: 25px;
     line-height: 47px;
@@ -50,7 +54,7 @@ html {
     font-size: 13px;
     line-height: 13px;
     text-align: center;
-    color: #eee4da;
+    color: #fff;
 }
 
 .nowScore {
@@ -264,18 +268,16 @@ html {
 
 .playAgain {
     position: relative;
-    font: 15px Calibri, Arial, sans-serif;
-    /* text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.4);*/
-    
     text-decoration: none !important;
     display: inline-block;
     cursor: pointer;
-    padding: 6px 20px;
+    padding: 10px;
+    margin-bottom: 20px;
     background-repeat: no-repeat;
     background-position: bottom left;
     background-image: url('../images/button_bg.png');
     background-position: bottom left, top right, 0 0, 0 0;
-    font-size: 30px;    
+    font-size: 24px;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     border-radius: 8px;
@@ -286,14 +288,11 @@ html {
     -moz-transition: background-position 1s;
     transition: background-position 1s;
     color: #fff;
-    border: 1px solid #84acc3 !important;
-    background-color: red;
     background-image: url('../img/button_bg.png'), url('../img/button_bg.png'), -moz-radial-gradient( center bottom, circle, rgba(89, 208, 244, 1) 0, rgba(89, 208, 244, 0) 100px), -moz-linear-gradient(#4fbbf7, #3faeeb);
-    background-image: url('../img/button_bg.png'), url('../img/button_bg.png'), -webkit-gradient( radial, 50% 100%, 0, 50% 100%, 100, from(rgba(0, 153, 153, 1)), to(rgba(51, 204, 204, 0))), -webkit-gradient(linear, 0% 0%, 0% 100%, from(#06066f), to(#04356c));
+    background-image: url('../img/button_bg.png'), url('../img/button_bg.png'), -webkit-gradient( radial, 50% 100%, 0, 50% 100%, 100, from(#47c4f0), to(#9fe3fd)), -webkit-gradient(linear, 0% 0%, 0% 100%, from(#47c4f0), to(#9fe3fd));
 }
 
 .playAgain:hover {
-    background-color: red;
     background-image: url('../img/button_bg.png'), url('../img/button_bg.png'), -moz-radial-gradient( center bottom, circle, rgba(109, 217, 250, 1) 0, rgba(109, 217, 250, 0) 100px), -moz-linear-gradient(#63c7fe, #58bef7);
     background-image: url('../img/button_bg.png'), url('../img/button_bg.png'), -webkit-gradient( radial, 50% 100%, 0, 50% 100%, 100, from(rgba(109, 217, 250, 1)), to(rgba(109, 217, 250, 0))), -webkit-gradient(linear, 0% 0%, 0% 100%, from(#63c7fe), to(#58bef7));
     background-position: top left;

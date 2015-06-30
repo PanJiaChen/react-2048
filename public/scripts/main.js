@@ -83,7 +83,7 @@ var Header=React.createClass({
       return(
         <div className='header'>
             <h1 className="title">2048</h1>
-            <ToolsBar />
+            <ToolsBar gameData={this.props.gameData}/>
             <div className='playAgain' onClick={this.props.handleNewGame}>new game</div>
         </div>
         
@@ -95,8 +95,8 @@ var ToolsBar =React.createClass({
     render:function(){
       return(
         <div className='score'>
-            <div className='nowScore'>0</div>
-            <div className='bestScore'>2048</div>
+            <div className='nowScore'>{this.props.gameData.score}</div>
+            <div className='bestScore'>{this.props.gameData.bestScore}</div>
         </div>
         
       )
@@ -130,7 +130,7 @@ var React2048=React.createClass({
     render:function(){
         return(
           <div className='wrapper'>
-            <Header handleNewGame={this.handleNewGame}  />
+            <Header handleNewGame={this.handleNewGame}  gameData={this.state.gameData} />
             <div className='container'>
                 <GridContainer gameData={this.state.gameData.gd} />
                 <NumContainer gd={this.state.gameData.gd} />
