@@ -112,7 +112,7 @@ html {
 }
 
 .cell-new {
-    webkit-animation-duration: 0.2s;
+    -webkit-animation-duration: 0.2s;
     animation-duration: 0.2s;
     -webkit-animation-name: newTile;
     animation-name: newTile;
@@ -123,6 +123,8 @@ html {
     -webkit-transform: scale(0);
     -ms-transform: scale(0);
     transform: scale(0);
+    -webkit-animation-delay: 0.5s;
+    animation-delay: 0.5s;
 }
 
 @-webkit-keyframes newTile {
