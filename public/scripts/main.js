@@ -12,15 +12,25 @@ var GridContainer=React.createClass({
 })
 
 var NumCell=React.createClass({
-    componentDidUpdate :function(){
-      var gameData=this.props.gameData;
-      var isNew=this.props.gameData.isNew;
-        var $elmt=$(this.getDOMNode());
-      $elmt.animate({
-        top:this.numCellTop(gameData.row,gameData.column),
-        left:this.numCellLeft(gameData.row,gameData.column)
-      }, 300);
-      console.log($elmt)
+    animationFn: function(el,target,dir) {
+      var timer = null;
+      timer = setInterval(function() {
+          var speed = (target - parseInt(el.style[dir])) / 5;
+          speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+          speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+          el.style[dir] = parseInt(el.style[dir]) + speed + 'px';
+          if(parseInt(el.style[dir])==target){
+            clearInterval(timer)
+          }
+      }, 15)
+    },
+    componentDidMount:function(){
+         var gameData=this.props.gameData;
+          var elmt=this.getDOMNode();
+          var left=this.numCellLeft(gameData.row,gameData.column)
+          var top=this.numCellTop(gameData.row,gameData.column)
+          this.animationFn(elmt,left,'left');  
+          this.animationFn(elmt,top,'top');      
     },
     numCellTop:function(column,row){
       var top=getPosTop(column,row)
@@ -54,6 +64,7 @@ var NumCell=React.createClass({
       var column=gameData.oldColumn!=-1?gameData.oldColumn:gameData.column;
       var numStyle={top: this.numCellTop(row,column),left:this.numCellLeft(row,column)};
       return(
+          <div  className={this.numCellClass()} ref='numCell'  style={numStyle}  keymark={this.props.keymark}>{this.props.gameData.value}</div>
       )
     }
 })
@@ -63,9 +74,9 @@ var NumContainer=React.createClass({
         var nums=[];
         this.props.gd.forEach(function(row,keyRow){
             row.forEach(function(el,keyCol){
-                // var keymark = keyCol+'-'+keyRow+'-'+this.props.gd[keyRow][keyCol].value;
+                var keymark = keyCol+'-'+keyRow+'-'+this.props.gd[keyRow][keyCol].value;
                 if(el.value > 0){
-                    nums.push(<NumCell gameData={el} />);
+                    nums.push(<NumCell gameData={el}  keymark={keymark} key={keymark} />);
                 }
             }.bind(this))
         }.bind(this));

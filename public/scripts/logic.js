@@ -16,7 +16,6 @@ function getPosLeft(i, j) {
     return cellSpace + j * (cellSpace * 2 + cellSideLength);;
 }
 
-
 var Game = function() {
     this.score = 0;
     this.status = 'runing';
