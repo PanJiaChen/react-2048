@@ -12,59 +12,53 @@ var GridContainer=React.createClass({
 })
 
 var NumCell=React.createClass({
-    animationFn: function(el,target,dir) {
-      var timer = null;
-      timer = setInterval(function() {
-          var speed = (target - parseInt(el.style[dir])) / 5;
-          speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
-          speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
-          el.style[dir] = parseInt(el.style[dir]) + speed + 'px';
-          if(parseInt(el.style[dir])==target){
-            clearInterval(timer)
-          }
-      }, 15)
+    animationFn: function(el, target, dir) {
+        var timer = null;
+        timer = setInterval(function() {
+            var speed = (target - parseInt(el.style[dir])) / 5;
+            speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+            el.style[dir] = parseInt(el.style[dir]) + speed + 'px';
+            if (parseInt(el.style[dir]) == target) {
+                clearInterval(timer);
+            }
+        }, 15)
     },
-    componentDidMount:function(){
-         var gameData=this.props.gameData;
-          var elmt=this.getDOMNode();
-          var left=this.numCellLeft(gameData.row,gameData.column)
-          var top=this.numCellTop(gameData.row,gameData.column)
-          this.animationFn(elmt,left,'left');  
-          this.animationFn(elmt,top,'top');      
+    componentDidMount: function() {
+        var gameData = this.props.gameData;
+        var elmt = this.getDOMNode();
+        var left = this.numCellPos(gameData.column);
+        var top = this.numCellPos(gameData.row);
+        this.animationFn(elmt, left, 'left');
+        this.animationFn(elmt, top, 'top');
     },
-    numCellTop:function(column,row){
-      var top=getPosTop(column,row)
-      return top;
+    numCellPos: function(pos) {
+        var targetPos = getPos(pos)
+        return targetPos;
     },
-    numCellLeft:function(column,row){
-      var left=getPosLeft(column,row)
-      return left;
-    },
-    numCellClass:function(){
-      var gameData=this.props.gameData;
-      var classArray=['num-cell'];
-
-      var cellValue=gameData.value;
-      classArray.push('cell-color-'+cellValue)
-
-      if(gameData.isNew){
-        classArray.push('cell-new')
-      }
-
-      if(gameData.isMerged){
-        classArray.push('cell-merged')
-      }
-
-      return  classArray.join(" ");
+    numCellClass: function() {
+        var gameData = this.props.gameData;
+        var classArray = ['num-cell'];
+        var cellValue = gameData.value;
+        classArray.push('cell-color-' + cellValue)
+        if (gameData.isNew) {
+            classArray.push('cell-new')
+        }
+        if (gameData.isMerged) {
+            classArray.push('cell-merged')
+        }
+        return classArray.join(" ");
     },
     render:function(){
-      var gameData=this.props.gameData;
-      var isNew=this.props.gameData.isNew;
-      var row=gameData.oldRow!=-1?gameData.oldRow:gameData.row;
-      var column=gameData.oldColumn!=-1?gameData.oldColumn:gameData.column;
-      var numStyle={top: this.numCellTop(row,column),left:this.numCellLeft(row,column)};
+      var gameData = this.props.gameData;
+      var isNew = this.props.gameData.isNew;
+      var row = gameData.oldRow != -1 ? gameData.oldRow : gameData.row;
+      var column = gameData.oldColumn != -1 ? gameData.oldColumn : gameData.column;
+      var numStyle = {
+          top: this.numCellPos(row),
+          left: this.numCellPos(column)
+      };
       return(
-          <div  className={this.numCellClass()} ref='numCell'  style={numStyle}  keymark={this.props.keymark}>{this.props.gameData.value}</div>
+          <div className={this.numCellClass()} ref='numCell' style={numStyle} keymark={this.props.keymark}>{this.props.gameData.value}</div>
       )
     }
 })
@@ -96,7 +90,6 @@ var Header=React.createClass({
             <ToolsBar gameData={this.props.gameData}/>
             <div className='playAgain' onClick={this.props.handleNewGame}>new game</div>
         </div>
-        
       )
     }
 })
@@ -114,28 +107,32 @@ var ToolsBar =React.createClass({
 })
 
 var React2048=React.createClass({
-    getInitialState:function(){
-        return {gameData:new Game};
+    getInitialState: function() {
+         return {
+             gameData: new Game
+         };
+     },
+    handleNewGame: function() {
+         this.setState({
+             gameData: new Game
+         });
     },
-    handleNewGame:function(){
-      this.setState({gameData: new Game});
-    },
-    handleKeyDown:function(event){
-       event.preventDefault;
-       if (event.keyCode >= 37 && event.keyCode <= 40) {
-  
-            var direction = event.keyCode - 37;
-            var gd = this.state.gameData.move(direction)
-            this.setState({gameData: gd});
+    handleKeyDown: function(event) {
+         event.preventDefault;
+         if (event.keyCode >= 37 && event.keyCode <= 40) {
+             var direction = event.keyCode - 37;
+             var gd = this.state.gameData.move(direction)
+             this.setState({
+                 gameData: gd
+             });
+         }
 
-          }
-
     },
-    componentDidMount: function () {
-        window.addEventListener('keydown', this.handleKeyDown);
+    componentDidMount: function() {
+         window.addEventListener('keydown', this.handleKeyDown);
     },
-    componentWillUnmount: function () {
-        window.removeEventListener('keydown', this.handleKeyDown);
+    componentWillUnmount: function() {
+         window.removeEventListener('keydown', this.handleKeyDown);
     },
     render:function(){
         return(
@@ -150,4 +147,4 @@ var React2048=React.createClass({
     }
 })
 
-React.render(<React2048 />, document.getElementById('container'));
+React.render(<React2048 />, document.body);

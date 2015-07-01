@@ -18,10 +18,11 @@ html {
     position: relative;
 }
 
-.title{
-    color:rgba(235, 67, 35, 0.75);
+.title {
+    color: rgba(235, 67, 35, 0.75);
     font-size: 36px;
 }
+
 .score {
     position: absolute;
     right: 0;

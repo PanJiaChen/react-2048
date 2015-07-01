@@ -1,4 +1,4 @@
-//移动端
+//基础大小参数
 documentWidth = window.screen.availWidth;
 gridContainerWidth = 0.92 * documentWidth;
 cellSideLength = 0.18 * documentWidth;
@@ -7,18 +7,12 @@ gridContainerWidth = 440;
 cellSpace = 5;
 cellSideLength = 100;
 
-
-function getPosTop(i, j) {
+function getPos(i) {
     return cellSpace + i * (cellSpace * 2 + cellSideLength);
-}
-
-function getPosLeft(i, j) {
-    return cellSpace + j * (cellSpace * 2 + cellSideLength);;
 }
 
 var Game = function() {
     this.score = 0;
-    this.status = 'runing';
     this.bestScore = window.localStorage.getItem('bestScore');
     this.bestScore = this.bestScore ? this.bestScore : 0;
     this.gd = this.initNum(Game.size);
@@ -29,6 +23,26 @@ var Game = function() {
 }
 
 Game.size = 4;
+
+Game.prototype.initNum = function(n) {
+    var gameMap = [];
+    for (var i = 0; i < n; i++) {
+        var tmp = [];
+        for (var j = 0; j < n; j++) {
+            tmp.push({
+                value: 0,
+                isNew: false,
+                isMerged: false,
+                row: -1,
+                column: -1,
+                oldRow: -1,
+                oldColumn: -1,
+            });
+        }
+        gameMap.push(tmp);
+    }
+    return gameMap;
+}
 
 Game.prototype.checkGameStatusAndAddNum = function() {
     var state;
@@ -63,25 +77,8 @@ function getRandomValue() {
     var randomNumValue = Math.random() < 0.5 ? 2 : 4
     return randomNumValue;
 }
-Game.prototype.initNum = function(n) {
-    var gameMap = [];
-    for (var i = 0; i < n; i++) {
-        var tmp = [];
-        for (var j = 0; j < n; j++) {
-            tmp.push({
-                value: 0,
-                isNew: false,
-                isMerged: false,
-                row: -1,
-                column: -1,
-                oldRow: -1,
-                oldColumn: -1,
-            });
-        }
-        gameMap.push(tmp);
-    }
-    return gameMap;
-}
+
+
 
 Game.prototype.move = function(direction) {
     // 0 -> left, 1 -> up, 2 -> right, 3 -> down
@@ -122,6 +119,7 @@ var rotateLeft = function(matrix) {
     }
     return res;
 };
+
 Game.prototype.moveLeft = function() {
     var hasChanged = false;
     for (var row = 0; row < Game.size; ++row) {
@@ -170,33 +168,6 @@ Game.prototype.addTile = function() {
     Tile.apply(res, arguments);
     return res;
 };
-
-// Tile.prototype.isNew = function() {
-//     return this.oldRow == -1 && !this.isMerged;
-// };
-
-Tile.prototype.hasMoved = function() {
-    return (this.fromRow() != -1 && (this.fromRow() != this.toRow() || this.fromColumn() != this.toColumn())) ||
-        this.mergedInto;
-};
-
-Tile.prototype.fromRow = function() {
-    return this.isMerged ? this.row : this.oldRow;
-};
-
-Tile.prototype.fromColumn = function() {
-    return this.isMerged ? this.column : this.oldColumn;
-};
-
-Tile.prototype.toRow = function() {
-    return this.isMerged ? this.mergedInto.row : this.row;
-};
-
-Tile.prototype.toColumn = function() {
-    return this.isMerged ? this.mergedInto.column : this.column;
-};
-
-
 
 Game.prototype.setPositions = function() {
     this.gd.forEach(function(row, rowIndex) {
