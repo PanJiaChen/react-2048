@@ -1,11 +1,6 @@
 //基础大小参数
-documentWidth = window.screen.availWidth;
-gridContainerWidth = 0.92 * documentWidth;
-cellSideLength = 0.18 * documentWidth;
-cellSpace = 0.04 * documentWidth;
-gridContainerWidth = 440;
-cellSpace = 5;
-cellSideLength = 100;
+var cellSpace = 5;
+var cellSideLength = 100;
 
 var globalSize = 4;
 
@@ -29,7 +24,7 @@ Game.prototype.setSize = function(size) {
     globalSize = size;
 }
 
-Game.prototype.focusGame = function(size) {
+Game.prototype.focusGame = function() {
     document.body.focus();
 }
 

@@ -147,7 +147,6 @@ var React2048=React.createClass({
                  gameData: gd
              });
          }
-
     },
     componentDidMount: function() {
          window.addEventListener('keydown', this.handleKeyDown);
