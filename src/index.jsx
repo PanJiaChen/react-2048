@@ -1,10 +1,11 @@
 import React from 'react'
 import Game from './logic.js'
+import './less/main.less'
+
 
 //基础大小参数
 var cellSpace = 5;
 var cellSideLength = 100;
-var globalSize = 4;
 
 function getPos(i) {
     return cellSpace + i * (cellSpace * 2 + cellSideLength);

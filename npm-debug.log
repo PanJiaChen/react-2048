@@ -1,0 +1,23 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'd:\\nodejs\\node.exe',
+1 verbose cli   'd:\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.33
+4 error install Couldn't read dependencies
+5 error Failed to parse json
+5 error Unexpected token }
+6 error File: d:\xampp\htdocs\react-2048\package.json
+7 error Failed to parse package.json data.
+7 error package.json must be actual JSON, not just JavaScript.
+7 error
+7 error This is not a bug in npm.
+7 error Tell the package author to fix their package.json file. JSON.parse
+8 error System Windows_NT 6.1.7601
+9 error command "d:\\nodejs\\node.exe" "d:\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install"
+10 error cwd d:\xampp\htdocs\react-2048
+11 error node -v v0.10.33
+12 error npm -v 1.4.28
+13 error file d:\xampp\htdocs\react-2048\package.json
+14 error code EJSONPARSE
+15 verbose exit [ 1, true ]

@@ -1,7 +1,3 @@
-//基础大小参数
-var cellSpace = 5;
-var cellSideLength = 100;
-
 var globalSize = 4;
 
 

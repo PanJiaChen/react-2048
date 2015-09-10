@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "./build_js/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -55,6 +55,16 @@
 	var _logicJs = __webpack_require__(3);
 	
 	var _logicJs2 = _interopRequireDefault(_logicJs);
+	
+	__webpack_require__(4);
+	
+	//基础大小参数
+	var cellSpace = 5;
+	var cellSideLength = 100;
+	
+	function getPos(i) {
+	    return cellSpace + i * (cellSpace * 2 + cellSideLength);
+	}
 	
 	var GridContainer = _react2['default'].createClass({
 	    displayName: 'GridContainer',
@@ -322,37 +332,31 @@
 /* 3 */
 /***/ function(module, exports) {
 
-	//基础大小参数
-	var cellSpace = 5;
-	var cellSideLength = 100;
+	'use strict';
 	
 	var globalSize = 4;
 	
-	function getPos(i) {
-	    return cellSpace + i * (cellSpace * 2 + cellSideLength);
-	}
-	
-	var Game = function() {
+	var Game = function Game() {
 	    this.score = 0;
 	    this.size = globalSize;
 	    this.bestScore = window.localStorage.getItem('bestScore');
 	    this.bestScore = this.bestScore ? this.bestScore : 0;
 	    this.gd = this.initNum(this.size);
-	    for (i = 0; i < 2; i++) {
+	    for (var i = 0; i < 2; i++) {
 	        this.checkGameStatusAndAddNum();
 	    }
 	    this.setPositions();
-	}
+	};
 	
-	Game.prototype.setSize = function(size) {
+	Game.prototype.setSize = function (size) {
 	    globalSize = size;
-	}
+	};
 	
-	Game.prototype.focusGame = function() {
+	Game.prototype.focusGame = function () {
 	    document.body.focus();
-	}
+	};
 	
-	Game.prototype.initNum = function(n) {
+	Game.prototype.initNum = function (n) {
 	    var gameMap = [];
 	    for (var i = 0; i < n; i++) {
 	        var tmp = [];
@@ -364,20 +368,21 @@
 	                row: -1,
 	                column: -1,
 	                oldRow: -1,
-	                oldColumn: -1,
+	                oldColumn: -1
 	            });
 	        }
 	        gameMap.push(tmp);
 	    }
 	    return gameMap;
-	}
+	};
 	
-	Game.prototype.checkGameStatusAndAddNum = function() {
+	Game.prototype.checkGameStatusAndAddNum = function () {
 	    var state;
 	    var pool = [];
-	    this.gd.forEach(function(row, keyRow) {
-	        row.forEach(function(elem, keyCol) {
-	            if (elem.value >= this.MaxScore) {
+	    var self = this;
+	    this.gd.forEach(function (row, keyRow) {
+	        row.forEach(function (elem, keyCol) {
+	            if (elem.value >= self.MaxScore) {
 	                state = true;
 	            } else if (elem.value === 0) {
 	                pool.push({
@@ -391,9 +396,8 @@
 	    //生成空余地方的数组，在其中随即一个位置生成一个新数字;
 	    var pos = pool[Math.floor(Math.random() * pool.length)];
 	    var numValue = getRandomValue();
-	    this.gd[pos.y][pos.x] = this.addTile(numValue)
-	}
-	
+	    this.gd[pos.y][pos.x] = this.addTile(numValue);
+	};
 	
 	//在特定位置生成数字和其必要属性
 	function getRandomValue() {
@@ -402,13 +406,11 @@
 	    // var num = set[Math.floor(Math.random() * set.length)];
 	
 	    // 50%概率模式
-	    var randomNumValue = Math.random() < 0.5 ? 2 : 4
+	    var randomNumValue = Math.random() < 0.5 ? 2 : 4;
 	    return randomNumValue;
 	}
 	
-	
-	
-	Game.prototype.move = function(direction) {
+	Game.prototype.move = function (direction) {
 	    // 0 -> left, 1 -> up, 2 -> right, 3 -> down
 	
 	    this.clearOldTiles();
@@ -426,16 +428,16 @@
 	    return this;
 	};
 	
-	Game.prototype.clearOldTiles = function() {
-	    this.gd.forEach(function(row, keyRow) {
-	        row.forEach(function(elem, keyCol) {
+	Game.prototype.clearOldTiles = function () {
+	    this.gd.forEach(function (row, keyRow) {
+	        row.forEach(function (elem, keyCol) {
 	            elem.isNew = false;
 	            elem.isMerged = false;
 	        });
 	    });
 	};
 	
-	var rotateLeft = function(matrix) {
+	var rotateLeft = function rotateLeft(matrix) {
 	    var rows = matrix.length;
 	    var columns = matrix[0].length;
 	    var res = [];
@@ -448,10 +450,10 @@
 	    return res;
 	};
 	
-	Game.prototype.moveLeft = function() {
+	Game.prototype.moveLeft = function () {
 	    var hasChanged = false;
 	    for (var row = 0; row < this.size; ++row) {
-	        var currentRow = this.gd[row].filter(function(tile) {
+	        var currentRow = this.gd[row].filter(function (tile) {
 	            return tile.value != 0;
 	        });
 	        var resultRow = [];
@@ -474,15 +476,14 @@
 	            }
 	            resultRow[target] = targetTile;
 	
-	            hasChanged |= (targetTile.value != this.gd[row][target].value);
+	            hasChanged |= targetTile.value != this.gd[row][target].value;
 	        }
 	        this.gd[row] = resultRow;
 	    }
 	    return hasChanged;
 	};
 	
-	
-	var Tile = function(value, column, row, isNew) {
+	var Tile = function Tile(value, column, row, isNew) {
 	    this.value = value || 0;
 	    this.row = row || -1;
 	    this.column = column || -1;
@@ -492,21 +493,349 @@
 	    this.isNew = isNew || true;
 	};
 	
-	Game.prototype.addTile = function() {
-	    var res = new Tile;
+	Game.prototype.addTile = function () {
+	    var res = new Tile();
 	    Tile.apply(res, arguments);
 	    return res;
 	};
 	
-	Game.prototype.setPositions = function() {
-	    this.gd.forEach(function(row, rowIndex) {
-	        row.forEach(function(tile, columnIndex) {
+	Game.prototype.setPositions = function () {
+	    this.gd.forEach(function (row, rowIndex) {
+	        row.forEach(function (tile, columnIndex) {
 	            tile.oldRow = tile.row;
 	            tile.oldColumn = tile.column;
 	            tile.row = rowIndex;
 	            tile.column = columnIndex;
 	        });
 	    });
+	};
+	
+	module.exports = Game;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(5);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(8)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./main.less", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./main.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(6)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "body,\nhtml {\n  font-family: \"Clear Sans\", \"Helvetica Neue\", Arial, sans-serif;\n  padding: 0;\n  margin: 0;\n}\n.header {\n  margin-top: 20px;\n}\n.grid-container {\n  -webkit-box-ordinal-group: 2;\n  -webkit-order: 1;\n  -ms-flex-order: 1;\n  order: 1;\n}\n.wrapper-for-4 {\n  width: 450px;\n  margin: 0 auto;\n  position: relative;\n}\n.wrapper-for-5 {\n  width: 560px;\n  margin: 0 auto;\n  position: relative;\n}\n.wrapper-for-6 {\n  width: 670px;\n  margin: 0 auto;\n  position: relative;\n}\n.wrapper-for-7 {\n  width: 780px;\n  margin: 0 auto;\n  position: relative;\n}\n.wrapper-for-8 {\n  width: 890px;\n  margin: 0 auto;\n  position: relative;\n}\n.title {\n  color: rgba(235, 67, 35, 0.75);\n  font-size: 36px;\n}\n.score {\n  position: absolute;\n  right: 0;\n  top: 0;\n}\n.nowScore,\n.bestScore {\n  position: relative;\n  display: inline-block;\n  background: rgba(37, 172, 162, 0.75);\n  padding: 15px 40px;\n  font-size: 25px;\n  height: 25px;\n  line-height: 47px;\n  font-weight: bold;\n  border-radius: 3px;\n  color: white;\n  margin-top: 8px;\n  text-align: center;\n}\n.nowScore:after,\n.bestScore:after {\n  position: absolute;\n  width: 100%;\n  top: 10px;\n  left: 0;\n  text-transform: uppercase;\n  font-size: 13px;\n  line-height: 13px;\n  text-align: center;\n  color: #fff;\n}\n.nowScore {\n  margin-right: 5px;\n}\n.nowScore:after {\n  content: 'score';\n}\n.bestScore:after {\n  content: 'bestScore';\n}\n.grid-cell {\n  width: 100px;\n  height: 100px;\n  margin: 5px;\n  line-height: 90px;\n  display: inline-block;\n  font-size: 55px;\n  font-weight: bold;\n  text-align: center;\n  vertical-align: middle;\n  border-radius: 7px;\n  color: #fff;\n  background-color: #badad9;\n}\n.num-cell {\n  width: 100px;\n  height: 100px;\n  margin: 5px;\n  line-height: 90px;\n  display: inline-block;\n  font-size: 55px;\n  text-align: center;\n  vertical-align: middle;\n  border-radius: 7px;\n  color: #fff;\n  position: absolute;\n  font-weight: bold;\n  /*-webkit-transition:all 5s ease-in-out;*/\n}\n.container-for-4 {\n  width: 440px;\n  height: 440px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.container-for-5 {\n  width: 550px;\n  height: 550px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.container-for-6 {\n  width: 660px;\n  height: 660px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.container-for-7 {\n  width: 770px;\n  height: 770px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.container-for-8 {\n  width: 880px;\n  height: 880px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.cell-new {\n  -webkit-animation-duration: 0.2s;\n  animation-duration: 0.2s;\n  -webkit-animation-name: newTile;\n  animation-name: newTile;\n  -webkit-animation-fill-mode: forwards;\n  animation-fill-mode: forwards;\n  -webkit-animation-delay: 0.15s;\n  animation-delay: 0.15s;\n  -webkit-transform: scale(0);\n  -ms-transform: scale(0);\n  transform: scale(0);\n  -webkit-animation-delay: 0.5s;\n  animation-delay: 0.5s;\n}\n@-webkit-keyframes newTile {\n  from {\n    -webkit-transform: scale(0);\n    transform: scale(0);\n  }\n  to {\n    -webkit-transform: scale(1);\n    transform: scale(1);\n  }\n}\n@keyframes newTile {\n  from {\n    -webkit-transform: scale(0);\n    transform: scale(0);\n  }\n  to {\n    -webkit-transform: scale(1);\n    transform: scale(1);\n  }\n}\n.cell-merged {\n  z-index: 20;\n  -webkit-animation: pop 200ms ease 100ms;\n  -moz-animation: pop 200ms ease 100ms;\n  animation: pop 200ms ease 100ms;\n  -webkit-animation-fill-mode: backwards;\n  -moz-animation-fill-mode: backwards;\n  animation-fill-mode: backwards;\n}\n@-webkit-keyframes pop {\n  0% {\n    -webkit-transform: scale(0);\n    -moz-transform: scale(0);\n    transform: scale(0);\n  }\n  50% {\n    -webkit-transform: scale(1.2);\n    -moz-transform: scale(1.2);\n    transform: scale(1.2);\n  }\n  100% {\n    -webkit-transform: scale(1);\n    -moz-transform: scale(1);\n    transform: scale(1);\n  }\n}\n@-moz-keyframes pop {\n  0% {\n    -webkit-transform: scale(0);\n    -moz-transform: scale(0);\n    transform: scale(0);\n  }\n  50% {\n    -webkit-transform: scale(1.2);\n    -moz-transform: scale(1.2);\n    transform: scale(1.2);\n  }\n  100% {\n    -webkit-transform: scale(1);\n    -moz-transform: scale(1);\n    transform: scale(1);\n  }\n}\n@keyframes pop {\n  0% {\n    -webkit-transform: scale(0);\n    -moz-transform: scale(0);\n    transform: scale(0);\n  }\n  50% {\n    -webkit-transform: scale(1.2);\n    -moz-transform: scale(1.2);\n    transform: scale(1.2);\n  }\n  100% {\n    -webkit-transform: scale(1);\n    -moz-transform: scale(1);\n    transform: scale(1);\n  }\n}\n.cell-color-2 {\n  background: #66c9ff;\n  border-color: #FAF8EF;\n}\n.cell-color-4 {\n  background: #f56a81;\n  border-color: #EAE0C8;\n}\n.cell-color-8 {\n  background: #490A3D;\n  border-color: #F59563;\n}\n.cell-color-16 {\n  background: #355C7D;\n  border-color: #3399ff;\n}\n.cell-color-32 {\n  background: #0CA5B0;\n  border-color: #ffa333;\n}\n.cell-color-64 {\n  background: #00C176;\n  border-color: #cef030;\n}\n.cell-color-128 {\n  background: #E21B5A;\n  border-color: #E8D8CE;\n}\n.cell-color-256 {\n  background: #109B81;\n  border-color: #990303;\n}\n.cell-color-512 {\n  background: #E21B5A;\n  border-color: #6BA5DE;\n}\n.cell-color-1024 {\n  background: #E21B5A;\n  border-color: #DCAD60;\n}\n.cell-color-2048 {\n  background: #E21B5A;\n  border-color: #B60022;\n}\n.playAgain {\n  position: relative;\n  text-decoration: none !important;\n  display: inline-block;\n  cursor: pointer;\n  padding: 10px;\n  margin-bottom: 20px;\n  background-repeat: no-repeat;\n  background-position: bottom left;\n  background-image: url(" + __webpack_require__(7) + ");\n  background-position: bottom left, top right, 0 0, 0 0;\n  font-size: 24px;\n  -moz-border-radius: 8px;\n  -webkit-border-radius: 8px;\n  border-radius: 8px;\n  -moz-box-shadow: 0 0 1px #fff inset;\n  -webkit-box-shadow: 0 0 1px #fff inset;\n  box-shadow: 0 0 1px #fff inset;\n  -webkit-transition: background-position 1s;\n  -moz-transition: background-position 1s;\n  transition: background-position 1s;\n  color: #fff;\n  background-image: url(" + __webpack_require__(7) + "), url(" + __webpack_require__(7) + "), -moz-radial-gradient(center bottom, circle, #59d0f4 0, rgba(89, 208, 244, 0) 100px), -moz-linear-gradient(#4fbbf7, #3faeeb);\n  background-image: url(" + __webpack_require__(7) + "), url(" + __webpack_require__(7) + "), -webkit-gradient(radial, 50% 100%, 0, 50% 100%, 100, from(#47c4f0), to(#9fe3fd)), -webkit-gradient(linear, 0% 0%, 0% 100%, from(#47c4f0), to(#9fe3fd));\n}\n.playAgain:hover {\n  background-image: url(" + __webpack_require__(7) + "), url(" + __webpack_require__(7) + "), -moz-radial-gradient(center bottom, circle, #6dd9fa 0, rgba(109, 217, 250, 0) 100px), -moz-linear-gradient(#63c7fe, #58bef7);\n  background-image: url(" + __webpack_require__(7) + "), url(" + __webpack_require__(7) + "), -webkit-gradient(radial, 50% 100%, 0, 50% 100%, 100, from(#6dd9fa), to(rgba(109, 217, 250, 0))), -webkit-gradient(linear, 0% 0%, 0% 100%, from(#63c7fe), to(#58bef7));\n  background-position: top left;\n  background-position: top left, bottom right, 0 0, 0 0;\n}\nselect.select-cell-num {\n  width: 80px;\n  height: 40px;\n  line-height: 40px;\n  padding-right: 20px;\n  text-indent: 4px;\n  text-align: left;\n  vertical-align: middle;\n  box-shadow: inset 0 0 3px #606060;\n  border: 1px solid #acacac;\n  -moz-border-radius: 6px;\n  -webkit-border-radius: 6px;\n  border-radius: 6px;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  appearance: none;\n  font-family: Arial, Calibri, Tahoma, Verdana;\n  font-size: 18px;\n  font-weight: 500;\n  color: #f56a81;\n  cursor: pointer;\n  outline: none;\n}\nselect.select-cell-num option {\n  padding: 4px 10px 4px 10px;\n  font-size: 11pt;\n  font-weight: normal;\n}\nselect.select-cell-num option:hover {\n  background: #61ccfd;\n  padding-left: 20px;\n}\nselect.select-cell-num option[selected] {\n  font-weight: bold;\n}\nselect.select-cell-num option:nth-child(even) {\n  background-color: #f5f5f5;\n}\nlabel.lbl-select {\n  position: relative;\n  display: inline-block;\n  float: right;\n  margin-top: 15px;\n}\nlabel.lbl-select::after {\n  content: \"\\25BC\";\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  width: 20px;\n  line-height: 40px;\n  vertical-align: middle;\n  text-align: center;\n  color: rgba(235, 67, 35, 0.75);\n  -moz-border-radius: 0 6px 6px 0;\n  -webkit-border-radius: 0 6px 6px 0;\n  border-radius: 0 6px 6px 0;\n  pointer-events: none;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+	
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+	
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "a81cd9bd20cfa0372cd383433678cd62.png"
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	var stylesInDom = {},
+		memoize = function(fn) {
+			var memo;
+			return function () {
+				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+				return memo;
+			};
+		},
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		}),
+		getHeadElement = memoize(function () {
+			return document.head || document.getElementsByTagName("head")[0];
+		}),
+		singletonElement = null,
+		singletonCounter = 0;
+	
+	module.exports = function(list, options) {
+		if(true) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+	
+		options = options || {};
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+		// tags it will allow on a page
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+	
+		var styles = listToStyles(list);
+		addStylesToDom(styles, options);
+	
+		return function update(newList) {
+			var mayRemove = [];
+			for(var i = 0; i < styles.length; i++) {
+				var item = styles[i];
+				var domStyle = stylesInDom[item.id];
+				domStyle.refs--;
+				mayRemove.push(domStyle);
+			}
+			if(newList) {
+				var newStyles = listToStyles(newList);
+				addStylesToDom(newStyles, options);
+			}
+			for(var i = 0; i < mayRemove.length; i++) {
+				var domStyle = mayRemove[i];
+				if(domStyle.refs === 0) {
+					for(var j = 0; j < domStyle.parts.length; j++)
+						domStyle.parts[j]();
+					delete stylesInDom[domStyle.id];
+				}
+			}
+		};
+	}
+	
+	function addStylesToDom(styles, options) {
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			if(domStyle) {
+				domStyle.refs++;
+				for(var j = 0; j < domStyle.parts.length; j++) {
+					domStyle.parts[j](item.parts[j]);
+				}
+				for(; j < item.parts.length; j++) {
+					domStyle.parts.push(addStyle(item.parts[j], options));
+				}
+			} else {
+				var parts = [];
+				for(var j = 0; j < item.parts.length; j++) {
+					parts.push(addStyle(item.parts[j], options));
+				}
+				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			}
+		}
+	}
+	
+	function listToStyles(list) {
+		var styles = [];
+		var newStyles = {};
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i];
+			var id = item[0];
+			var css = item[1];
+			var media = item[2];
+			var sourceMap = item[3];
+			var part = {css: css, media: media, sourceMap: sourceMap};
+			if(!newStyles[id])
+				styles.push(newStyles[id] = {id: id, parts: [part]});
+			else
+				newStyles[id].parts.push(part);
+		}
+		return styles;
+	}
+	
+	function createStyleElement() {
+		var styleElement = document.createElement("style");
+		var head = getHeadElement();
+		styleElement.type = "text/css";
+		head.appendChild(styleElement);
+		return styleElement;
+	}
+	
+	function createLinkElement() {
+		var linkElement = document.createElement("link");
+		var head = getHeadElement();
+		linkElement.rel = "stylesheet";
+		head.appendChild(linkElement);
+		return linkElement;
+	}
+	
+	function addStyle(obj, options) {
+		var styleElement, update, remove;
+	
+		if (options.singleton) {
+			var styleIndex = singletonCounter++;
+			styleElement = singletonElement || (singletonElement = createStyleElement());
+			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement();
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				styleElement.parentNode.removeChild(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
+		} else {
+			styleElement = createStyleElement();
+			update = applyToTag.bind(null, styleElement);
+			remove = function() {
+				styleElement.parentNode.removeChild(styleElement);
+			};
+		}
+	
+		update(obj);
+	
+		return function updateStyle(newObj) {
+			if(newObj) {
+				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+					return;
+				update(obj = newObj);
+			} else {
+				remove();
+			}
+		};
+	}
+	
+	var replaceText = (function () {
+		var textStore = [];
+	
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
+	
+	function applyToSingletonTag(styleElement, index, remove, obj) {
+		var css = remove ? "" : obj.css;
+	
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
+		} else {
+			var cssNode = document.createTextNode(css);
+			var childNodes = styleElement.childNodes;
+			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+			if (childNodes.length) {
+				styleElement.insertBefore(cssNode, childNodes[index]);
+			} else {
+				styleElement.appendChild(cssNode);
+			}
+		}
+	}
+	
+	function applyToTag(styleElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+		var sourceMap = obj.sourceMap;
+	
+		if(media) {
+			styleElement.setAttribute("media", media)
+		}
+	
+		if(styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = css;
+		} else {
+			while(styleElement.firstChild) {
+				styleElement.removeChild(styleElement.firstChild);
+			}
+			styleElement.appendChild(document.createTextNode(css));
+		}
+	}
+	
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+		var sourceMap = obj.sourceMap;
+	
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+	
+		var blob = new Blob([css], { type: "text/css" });
+	
+		var oldSrc = linkElement.href;
+	
+		linkElement.href = URL.createObjectURL(blob);
+	
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
 	}
 
 
