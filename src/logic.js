@@ -4,9 +4,6 @@ var cellSideLength = 100;
 
 var globalSize = 4;
 
-function getPos(i) {
-    return cellSpace + i * (cellSpace * 2 + cellSideLength);
-}
 
 var Game = function() {
     this.score = 0;
@@ -14,7 +11,7 @@ var Game = function() {
     this.bestScore = window.localStorage.getItem('bestScore');
     this.bestScore = this.bestScore ? this.bestScore : 0;
     this.gd = this.initNum(this.size);
-    for (i = 0; i < 2; i++) {
+    for (var i = 0; i < 2; i++) {
         this.checkGameStatusAndAddNum();
     }
     this.setPositions();
@@ -51,9 +48,10 @@ Game.prototype.initNum = function(n) {
 Game.prototype.checkGameStatusAndAddNum = function() {
     var state;
     var pool = [];
+    var self=this;
     this.gd.forEach(function(row, keyRow) {
         row.forEach(function(elem, keyCol) {
-            if (elem.value >= this.MaxScore) {
+            if (elem.value >= self.MaxScore) {
                 state = true;
             } else if (elem.value === 0) {
                 pool.push({
@@ -184,3 +182,5 @@ Game.prototype.setPositions = function() {
         });
     });
 }
+
+module.exports = Game;
