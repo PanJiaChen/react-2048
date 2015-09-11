@@ -1,6 +1,4 @@
 var globalSize = 4;
-
-
 var Game = function() {
     this.score = 0;
     this.size = globalSize;

@@ -28,6 +28,7 @@ gulp.task('webpack-dev-server', function(cb) {
     config.debug = true;
     config.devtool = 'source-map'
     config.output.sourceMapFilename = '[name].map'
+    console.log(config.output.publicPath)
     new WebpackDevServer(webpack(config), {
         publicPath: config.output.publicPath,
         stats: {

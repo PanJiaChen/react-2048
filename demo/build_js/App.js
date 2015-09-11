@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "./build_js/";
+/******/ 	__webpack_require__.p = "/demo/build_js/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -46,257 +46,102 @@
 
 	'use strict';
 	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _logicJs = __webpack_require__(3);
+	var _jsLogicJs = __webpack_require__(3);
 	
-	var _logicJs2 = _interopRequireDefault(_logicJs);
+	var _jsLogicJs2 = _interopRequireDefault(_jsLogicJs);
 	
-	__webpack_require__(4);
+	var _jsHeaderJsx = __webpack_require__(4);
 	
-	//基础大小参数
-	var cellSpace = 5;
-	var cellSideLength = 100;
+	var _jsHeaderJsx2 = _interopRequireDefault(_jsHeaderJsx);
 	
-	function getPos(i) {
-	    return cellSpace + i * (cellSpace * 2 + cellSideLength);
-	}
+	var _jsGridContainerJsx = __webpack_require__(5);
 	
-	var GridContainer = _react2['default'].createClass({
-	    displayName: 'GridContainer',
+	var _jsGridContainerJsx2 = _interopRequireDefault(_jsGridContainerJsx);
 	
-	    render: function render() {
-	        var grid = this.props.gameData.map(function (row) {
-	            return _react2['default'].createElement(
-	                'div',
-	                { className: 'grid-row' },
-	                row.map(function () {
-	                    return _react2['default'].createElement('div', { className: 'grid-cell' });
-	                })
-	            );
-	        });
-	        return _react2['default'].createElement(
-	            'div',
-	            { className: 'grid-container' },
-	            grid
-	        );
-	    }
-	});
+	var _jsNumContainerJsx = __webpack_require__(6);
 	
-	var NumCell = _react2['default'].createClass({
-	    displayName: 'NumCell',
+	var _jsNumContainerJsx2 = _interopRequireDefault(_jsNumContainerJsx);
 	
-	    animationFn: function animationFn(el, target, dir) {
-	        var timer = null;
-	        timer = setInterval(function () {
-	            var speed = (target - parseInt(el.style[dir])) / 5;
-	            speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
-	            el.style[dir] = parseInt(el.style[dir]) + speed + 'px';
-	            if (parseInt(el.style[dir]) == target) {
-	                clearInterval(timer);
-	            }
-	        }, 15);
-	    },
-	    componentDidMount: function componentDidMount() {
-	        var gameData = this.props.gameData;
-	        var elmt = this.getDOMNode();
-	        var left = this.numCellPos(gameData.column);
-	        var top = this.numCellPos(gameData.row);
-	        this.animationFn(elmt, left, 'left');
-	        this.animationFn(elmt, top, 'top');
-	    },
-	    numCellPos: function numCellPos(pos) {
-	        var targetPos = getPos(pos);
-	        return targetPos;
-	    },
-	    numCellClass: function numCellClass() {
-	        var gameData = this.props.gameData;
-	        var classArray = ['num-cell'];
-	        var cellValue = gameData.value;
-	        classArray.push('cell-color-' + cellValue);
-	        if (gameData.isNew) {
-	            classArray.push('cell-new');
-	        }
-	        if (gameData.isMerged) {
-	            classArray.push('cell-merged');
-	        }
-	        return classArray.join(" ");
-	    },
-	    render: function render() {
-	        var gameData = this.props.gameData;
-	        var isNew = this.props.gameData.isNew;
-	        var row = gameData.oldRow != -1 ? gameData.oldRow : gameData.row;
-	        var column = gameData.oldColumn != -1 ? gameData.oldColumn : gameData.column;
-	        var numStyle = {
-	            top: this.numCellPos(row),
-	            left: this.numCellPos(column)
+	__webpack_require__(7);
+	
+	alert('npp');
+	
+	var React2048 = (function (_React$Component) {
+	    _inherits(React2048, _React$Component);
+	
+	    function React2048() {
+	        _classCallCheck(this, React2048);
+	
+	        _get(Object.getPrototypeOf(React2048.prototype), 'constructor', this).apply(this, arguments);
+	
+	        this.state = {
+	            gameData: new _jsLogicJs2['default']()
 	        };
-	        return _react2['default'].createElement(
-	            'div',
-	            { className: this.numCellClass(), ref: 'numCell', style: numStyle, keymark: this.props.keymark },
-	            this.props.gameData.value
-	        );
 	    }
-	});
 	
-	var NumContainer = _react2['default'].createClass({
-	    displayName: 'NumContainer',
-	
-	    render: function render() {
-	        var nums = [];
-	        this.props.gd.forEach((function (row, keyRow) {
-	            row.forEach((function (el, keyCol) {
-	                var keymark = keyCol + '-' + keyRow + '-' + this.props.gd[keyRow][keyCol].value;
-	                if (el.value > 0) {
-	                    nums.push(_react2['default'].createElement(NumCell, { gameData: el, keymark: keymark, key: keymark }));
-	                }
-	            }).bind(this));
-	        }).bind(this));
-	        return _react2['default'].createElement(
-	            'div',
-	            { className: 'num-container' },
-	            nums
-	        );
-	    }
-	});
-	
-	var Header = _react2['default'].createClass({
-	    displayName: 'Header',
-	
-	    render: function render() {
-	        return _react2['default'].createElement(
-	            'div',
-	            { className: 'header' },
-	            _react2['default'].createElement(
-	                'h1',
-	                { className: 'title' },
-	                '2048'
-	            ),
-	            _react2['default'].createElement(ToolsBar, { gameData: this.props.gameData }),
-	            _react2['default'].createElement(
-	                'div',
-	                { className: 'playAgain', onClick: this.props.handleNewGame },
-	                'new game'
-	            ),
-	            _react2['default'].createElement(CellSelect, { gameData: this.props.gameData, handleNewGame: this.props.handleNewGame })
-	        );
-	    }
-	});
-	
-	var ToolsBar = _react2['default'].createClass({
-	    displayName: 'ToolsBar',
-	
-	    render: function render() {
-	        return _react2['default'].createElement(
-	            'div',
-	            { className: 'score' },
-	            _react2['default'].createElement(
-	                'div',
-	                { className: 'nowScore' },
-	                this.props.gameData.score
-	            ),
-	            _react2['default'].createElement(
-	                'div',
-	                { className: 'bestScore' },
-	                this.props.gameData.bestScore
-	            )
-	        );
-	    }
-	});
-	
-	var CellSelect = _react2['default'].createClass({
-	    displayName: 'CellSelect',
-	
-	    valueSelect: function valueSelect(event) {
-	        this.props.gameData.setSize(event.target.value);
-	        this.props.gameData.focusGame();
-	        this.props.handleNewGame();
-	    },
-	    render: function render() {
-	        return _react2['default'].createElement(
-	            'label',
-	            { className: 'lbl-select' },
-	            _react2['default'].createElement(
-	                'select',
-	                { className: 'select-cell-num', title: 'Select Cell Number', onChange: this.valueSelect },
-	                _react2['default'].createElement(
-	                    'option',
-	                    { value: '4' },
-	                    '4'
-	                ),
-	                _react2['default'].createElement(
-	                    'option',
-	                    { value: '5' },
-	                    '5'
-	                ),
-	                _react2['default'].createElement(
-	                    'option',
-	                    { value: '6' },
-	                    '6'
-	                ),
-	                _react2['default'].createElement(
-	                    'option',
-	                    { value: '7' },
-	                    '7'
-	                ),
-	                _react2['default'].createElement(
-	                    'option',
-	                    { value: '8' },
-	                    '8'
-	                )
-	            )
-	        );
-	    }
-	});
-	
-	var React2048 = _react2['default'].createClass({
-	    displayName: 'React2048',
-	
-	    getInitialState: function getInitialState() {
-	        return {
-	            gameData: new _logicJs2['default']()
-	        };
-	    },
-	    handleNewGame: function handleNewGame() {
-	        this.setState({
-	            gameData: new _logicJs2['default']()
-	        });
-	    },
-	    handleKeyDown: function handleKeyDown(event) {
-	        event.preventDefault;
-	        if (event.keyCode >= 37 && event.keyCode <= 40) {
-	            var direction = event.keyCode - 37;
-	            var gd = this.state.gameData.move(direction);
+	    _createClass(React2048, [{
+	        key: 'handleNewGame',
+	        value: function handleNewGame() {
 	            this.setState({
-	                gameData: gd
+	                gameData: new _jsLogicJs2['default']()
 	            });
 	        }
-	    },
-	    componentDidMount: function componentDidMount() {
-	        window.addEventListener('keydown', this.handleKeyDown);
-	    },
-	    componentWillUnmount: function componentWillUnmount() {
-	        window.removeEventListener('keydown', this.handleKeyDown);
-	    },
-	    render: function render() {
-	        var gameData = this.state.gameData;
-	        return _react2['default'].createElement(
-	            'div',
-	            { className: 'wrapper-for-' + gameData.size },
-	            _react2['default'].createElement(Header, { handleNewGame: this.handleNewGame, gameData: gameData }),
-	            _react2['default'].createElement(
+	    }, {
+	        key: 'handleKeyDown',
+	        value: function handleKeyDown(event) {
+	            event.preventDefault;
+	            if (event.keyCode >= 37 && event.keyCode <= 40) {
+	                var direction = event.keyCode - 37;
+	                var gd = this.state.gameData.move(direction);
+	                this.setState({
+	                    gameData: gd
+	                });
+	            }
+	        }
+	    }, {
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            window.addEventListener('keydown', this.handleKeyDown);
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            window.removeEventListener('keydown', this.handleKeyDown);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var gameData = this.state.gameData;
+	            return _react2['default'].createElement(
 	                'div',
-	                { className: 'container-for-' + gameData.size },
-	                _react2['default'].createElement(GridContainer, { gameData: gameData.gd }),
-	                _react2['default'].createElement(NumContainer, { gd: gameData.gd })
-	            )
-	        );
-	    }
-	});
+	                { className: 'wrapper-for-' + gameData.size },
+	                _react2['default'].createElement(_jsHeaderJsx2['default'], { handleNewGame: this.handleNewGame, gameData: gameData }),
+	                _react2['default'].createElement(
+	                    'div',
+	                    { className: 'container-for-' + gameData.size },
+	                    _react2['default'].createElement(_jsGridContainerJsx2['default'], { gameData: gameData.gd }),
+	                    _react2['default'].createElement(_jsNumContainerJsx2['default'], { gd: gameData.gd })
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return React2048;
+	})(_react2['default'].Component);
 	
 	_react2['default'].render(_react2['default'].createElement(React2048, null), document.body);
 
@@ -514,15 +359,339 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Header = (function (_React$Component) {
+	    _inherits(Header, _React$Component);
+	
+	    function Header() {
+	        _classCallCheck(this, Header);
+	
+	        _get(Object.getPrototypeOf(Header.prototype), 'constructor', this).apply(this, arguments);
+	    }
+	
+	    _createClass(Header, [{
+	        key: 'render',
+	        value: function render() {
+	            return React.createElement(
+	                'div',
+	                { className: 'header' },
+	                React.createElement(
+	                    'h1',
+	                    { className: 'title' },
+	                    '2048'
+	                ),
+	                React.createElement(ToolsBar, { gameData: this.props.gameData }),
+	                React.createElement(
+	                    'div',
+	                    { className: 'playAgain', onClick: this.props.handleNewGame },
+	                    'new game'
+	                ),
+	                React.createElement(CellSelect, { gameData: this.props.gameData, handleNewGame: this.props.handleNewGame })
+	            );
+	        }
+	    }]);
+	
+	    return Header;
+	})(React.Component);
+	
+	var ToolsBar = (function (_React$Component2) {
+	    _inherits(ToolsBar, _React$Component2);
+	
+	    function ToolsBar() {
+	        _classCallCheck(this, ToolsBar);
+	
+	        _get(Object.getPrototypeOf(ToolsBar.prototype), 'constructor', this).apply(this, arguments);
+	    }
+	
+	    _createClass(ToolsBar, [{
+	        key: 'render',
+	        value: function render() {
+	            return React.createElement(
+	                'div',
+	                { className: 'score' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'nowScore' },
+	                    this.props.gameData.score
+	                ),
+	                React.createElement(
+	                    'div',
+	                    { className: 'bestScore' },
+	                    this.props.gameData.bestScore
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return ToolsBar;
+	})(React.Component);
+	
+	var CellSelect = (function (_React$Component3) {
+	    _inherits(CellSelect, _React$Component3);
+	
+	    function CellSelect() {
+	        _classCallCheck(this, CellSelect);
+	
+	        _get(Object.getPrototypeOf(CellSelect.prototype), 'constructor', this).apply(this, arguments);
+	    }
+	
+	    _createClass(CellSelect, [{
+	        key: 'valueSelect',
+	        value: function valueSelect(event) {
+	            this.props.gameData.setSize(event.target.value);
+	            this.props.gameData.focusGame();
+	            this.props.handleNewGame();
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return React.createElement(
+	                'label',
+	                { className: 'lbl-select' },
+	                React.createElement(
+	                    'select',
+	                    { className: 'select-cell-num', title: 'Select Cell Number', onChange: this.valueSelect },
+	                    React.createElement(
+	                        'option',
+	                        { value: '4' },
+	                        '4'
+	                    ),
+	                    React.createElement(
+	                        'option',
+	                        { value: '5' },
+	                        '5'
+	                    ),
+	                    React.createElement(
+	                        'option',
+	                        { value: '6' },
+	                        '6'
+	                    ),
+	                    React.createElement(
+	                        'option',
+	                        { value: '7' },
+	                        '7'
+	                    ),
+	                    React.createElement(
+	                        'option',
+	                        { value: '8' },
+	                        '8'
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return CellSelect;
+	})(React.Component);
+	
+	module.exports = Header;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var GridContainer = (function (_React$Component) {
+	    _inherits(GridContainer, _React$Component);
+	
+	    function GridContainer() {
+	        _classCallCheck(this, GridContainer);
+	
+	        _get(Object.getPrototypeOf(GridContainer.prototype), "constructor", this).apply(this, arguments);
+	    }
+	
+	    _createClass(GridContainer, [{
+	        key: "render",
+	        value: function render() {
+	            var grid = this.props.gameData.map(function (row) {
+	                return React.createElement(
+	                    "div",
+	                    { className: "grid-row" },
+	                    row.map(function () {
+	                        return React.createElement("div", { className: "grid-cell" });
+	                    })
+	                );
+	            });
+	            return React.createElement(
+	                "div",
+	                { className: "grid-container" },
+	                grid
+	            );
+	        }
+	    }]);
+	
+	    return GridContainer;
+	})(React.Component);
+	
+	module.exports = GridContainer;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	//基础大小参数
+	'use strict';
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var cellSpace = 5;
+	var cellSideLength = 100;
+	
+	function getPos(i) {
+	    return cellSpace + i * (cellSpace * 2 + cellSideLength);
+	}
+	
+	var NumContainer = (function (_React$Component) {
+	    _inherits(NumContainer, _React$Component);
+	
+	    function NumContainer() {
+	        _classCallCheck(this, NumContainer);
+	
+	        _get(Object.getPrototypeOf(NumContainer.prototype), 'constructor', this).apply(this, arguments);
+	    }
+	
+	    _createClass(NumContainer, [{
+	        key: 'render',
+	        value: function render() {
+	            var _this = this;
+	
+	            var nums = [];
+	
+	            this.props.gd.map(function (row, keyRow) {
+	                row.map(function (el, keyCol) {
+	                    var keymark = keyCol + '-' + keyRow + '-' + _this.props.gd[keyRow][keyCol].value;
+	                    if (el.value > 0) {
+	                        nums.push(React.createElement(NumCell, { gameData: el, keymark: keymark, key: keymark }));
+	                    }
+	                    return nums;
+	                });
+	            });
+	
+	            return React.createElement(
+	                'div',
+	                { className: 'num-container' },
+	                nums
+	            );
+	        }
+	    }]);
+	
+	    return NumContainer;
+	})(React.Component);
+	
+	var NumCell = (function (_React$Component2) {
+	    _inherits(NumCell, _React$Component2);
+	
+	    function NumCell() {
+	        _classCallCheck(this, NumCell);
+	
+	        _get(Object.getPrototypeOf(NumCell.prototype), 'constructor', this).apply(this, arguments);
+	    }
+	
+	    _createClass(NumCell, [{
+	        key: 'animationFn',
+	        value: function animationFn(el, target, dir) {
+	            var timer = null;
+	            timer = setInterval(function () {
+	                var speed = (target - parseInt(el.style[dir])) / 5;
+	                speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+	                el.style[dir] = parseInt(el.style[dir]) + speed + 'px';
+	                if (parseInt(el.style[dir]) == target) {
+	                    clearInterval(timer);
+	                }
+	            }, 15);
+	        }
+	    }, {
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var gameData = this.props.gameData;
+	            var elmt = this.getDOMNode();
+	            var left = this.numCellPos(gameData.column);
+	            var top = this.numCellPos(gameData.row);
+	            this.animationFn(elmt, left, 'left');
+	            this.animationFn(elmt, top, 'top');
+	        }
+	    }, {
+	        key: 'numCellPos',
+	        value: function numCellPos(pos) {
+	            var targetPos = getPos(pos);
+	            return targetPos;
+	        }
+	    }, {
+	        key: 'numCellClass',
+	        value: function numCellClass() {
+	            var gameData = this.props.gameData;
+	            var classArray = ['num-cell'];
+	            var cellValue = gameData.value;
+	            classArray.push('cell-color-' + cellValue);
+	            if (gameData.isNew) {
+	                classArray.push('cell-new');
+	            }
+	            if (gameData.isMerged) {
+	                classArray.push('cell-merged');
+	            }
+	            return classArray.join(" ");
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var gameData = this.props.gameData;
+	            var isNew = this.props.gameData.isNew;
+	            var row = gameData.oldRow != -1 ? gameData.oldRow : gameData.row;
+	            var column = gameData.oldColumn != -1 ? gameData.oldColumn : gameData.column;
+	            var numStyle = {
+	                top: this.numCellPos(row),
+	                left: this.numCellPos(column)
+	            };
+	            return React.createElement(
+	                'div',
+	                { className: this.numCellClass(), ref: 'numCell', style: numStyle, keymark: this.props.keymark },
+	                this.props.gameData.value
+	            );
+	        }
+	    }]);
+	
+	    return NumCell;
+	})(React.Component);
+	
+	module.exports = NumContainer;
+
+/***/ },
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(5);
+	var content = __webpack_require__(8);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(8)(content, {});
+	var update = __webpack_require__(11)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -539,21 +708,21 @@
 	}
 
 /***/ },
-/* 5 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(6)();
+	exports = module.exports = __webpack_require__(9)();
 	// imports
 	
 	
 	// module
-	exports.push([module.id, "body,\nhtml {\n  font-family: \"Clear Sans\", \"Helvetica Neue\", Arial, sans-serif;\n  padding: 0;\n  margin: 0;\n}\n.header {\n  margin-top: 20px;\n}\n.grid-container {\n  -webkit-box-ordinal-group: 2;\n  -webkit-order: 1;\n  -ms-flex-order: 1;\n  order: 1;\n}\n.wrapper-for-4 {\n  width: 450px;\n  margin: 0 auto;\n  position: relative;\n}\n.wrapper-for-5 {\n  width: 560px;\n  margin: 0 auto;\n  position: relative;\n}\n.wrapper-for-6 {\n  width: 670px;\n  margin: 0 auto;\n  position: relative;\n}\n.wrapper-for-7 {\n  width: 780px;\n  margin: 0 auto;\n  position: relative;\n}\n.wrapper-for-8 {\n  width: 890px;\n  margin: 0 auto;\n  position: relative;\n}\n.title {\n  color: rgba(235, 67, 35, 0.75);\n  font-size: 36px;\n}\n.score {\n  position: absolute;\n  right: 0;\n  top: 0;\n}\n.nowScore,\n.bestScore {\n  position: relative;\n  display: inline-block;\n  background: rgba(37, 172, 162, 0.75);\n  padding: 15px 40px;\n  font-size: 25px;\n  height: 25px;\n  line-height: 47px;\n  font-weight: bold;\n  border-radius: 3px;\n  color: white;\n  margin-top: 8px;\n  text-align: center;\n}\n.nowScore:after,\n.bestScore:after {\n  position: absolute;\n  width: 100%;\n  top: 10px;\n  left: 0;\n  text-transform: uppercase;\n  font-size: 13px;\n  line-height: 13px;\n  text-align: center;\n  color: #fff;\n}\n.nowScore {\n  margin-right: 5px;\n}\n.nowScore:after {\n  content: 'score';\n}\n.bestScore:after {\n  content: 'bestScore';\n}\n.grid-cell {\n  width: 100px;\n  height: 100px;\n  margin: 5px;\n  line-height: 90px;\n  display: inline-block;\n  font-size: 55px;\n  font-weight: bold;\n  text-align: center;\n  vertical-align: middle;\n  border-radius: 7px;\n  color: #fff;\n  background-color: #badad9;\n}\n.num-cell {\n  width: 100px;\n  height: 100px;\n  margin: 5px;\n  line-height: 90px;\n  display: inline-block;\n  font-size: 55px;\n  text-align: center;\n  vertical-align: middle;\n  border-radius: 7px;\n  color: #fff;\n  position: absolute;\n  font-weight: bold;\n  /*-webkit-transition:all 5s ease-in-out;*/\n}\n.container-for-4 {\n  width: 440px;\n  height: 440px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.container-for-5 {\n  width: 550px;\n  height: 550px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.container-for-6 {\n  width: 660px;\n  height: 660px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.container-for-7 {\n  width: 770px;\n  height: 770px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.container-for-8 {\n  width: 880px;\n  height: 880px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.cell-new {\n  -webkit-animation-duration: 0.2s;\n  animation-duration: 0.2s;\n  -webkit-animation-name: newTile;\n  animation-name: newTile;\n  -webkit-animation-fill-mode: forwards;\n  animation-fill-mode: forwards;\n  -webkit-animation-delay: 0.15s;\n  animation-delay: 0.15s;\n  -webkit-transform: scale(0);\n  -ms-transform: scale(0);\n  transform: scale(0);\n  -webkit-animation-delay: 0.5s;\n  animation-delay: 0.5s;\n}\n@-webkit-keyframes newTile {\n  from {\n    -webkit-transform: scale(0);\n    transform: scale(0);\n  }\n  to {\n    -webkit-transform: scale(1);\n    transform: scale(1);\n  }\n}\n@keyframes newTile {\n  from {\n    -webkit-transform: scale(0);\n    transform: scale(0);\n  }\n  to {\n    -webkit-transform: scale(1);\n    transform: scale(1);\n  }\n}\n.cell-merged {\n  z-index: 20;\n  -webkit-animation: pop 200ms ease 100ms;\n  -moz-animation: pop 200ms ease 100ms;\n  animation: pop 200ms ease 100ms;\n  -webkit-animation-fill-mode: backwards;\n  -moz-animation-fill-mode: backwards;\n  animation-fill-mode: backwards;\n}\n@-webkit-keyframes pop {\n  0% {\n    -webkit-transform: scale(0);\n    -moz-transform: scale(0);\n    transform: scale(0);\n  }\n  50% {\n    -webkit-transform: scale(1.2);\n    -moz-transform: scale(1.2);\n    transform: scale(1.2);\n  }\n  100% {\n    -webkit-transform: scale(1);\n    -moz-transform: scale(1);\n    transform: scale(1);\n  }\n}\n@-moz-keyframes pop {\n  0% {\n    -webkit-transform: scale(0);\n    -moz-transform: scale(0);\n    transform: scale(0);\n  }\n  50% {\n    -webkit-transform: scale(1.2);\n    -moz-transform: scale(1.2);\n    transform: scale(1.2);\n  }\n  100% {\n    -webkit-transform: scale(1);\n    -moz-transform: scale(1);\n    transform: scale(1);\n  }\n}\n@keyframes pop {\n  0% {\n    -webkit-transform: scale(0);\n    -moz-transform: scale(0);\n    transform: scale(0);\n  }\n  50% {\n    -webkit-transform: scale(1.2);\n    -moz-transform: scale(1.2);\n    transform: scale(1.2);\n  }\n  100% {\n    -webkit-transform: scale(1);\n    -moz-transform: scale(1);\n    transform: scale(1);\n  }\n}\n.cell-color-2 {\n  background: #66c9ff;\n  border-color: #FAF8EF;\n}\n.cell-color-4 {\n  background: #f56a81;\n  border-color: #EAE0C8;\n}\n.cell-color-8 {\n  background: #490A3D;\n  border-color: #F59563;\n}\n.cell-color-16 {\n  background: #355C7D;\n  border-color: #3399ff;\n}\n.cell-color-32 {\n  background: #0CA5B0;\n  border-color: #ffa333;\n}\n.cell-color-64 {\n  background: #00C176;\n  border-color: #cef030;\n}\n.cell-color-128 {\n  background: #E21B5A;\n  border-color: #E8D8CE;\n}\n.cell-color-256 {\n  background: #109B81;\n  border-color: #990303;\n}\n.cell-color-512 {\n  background: #E21B5A;\n  border-color: #6BA5DE;\n}\n.cell-color-1024 {\n  background: #E21B5A;\n  border-color: #DCAD60;\n}\n.cell-color-2048 {\n  background: #E21B5A;\n  border-color: #B60022;\n}\n.playAgain {\n  position: relative;\n  text-decoration: none !important;\n  display: inline-block;\n  cursor: pointer;\n  padding: 10px;\n  margin-bottom: 20px;\n  background-repeat: no-repeat;\n  background-position: bottom left;\n  background-image: url(" + __webpack_require__(7) + ");\n  background-position: bottom left, top right, 0 0, 0 0;\n  font-size: 24px;\n  -moz-border-radius: 8px;\n  -webkit-border-radius: 8px;\n  border-radius: 8px;\n  -moz-box-shadow: 0 0 1px #fff inset;\n  -webkit-box-shadow: 0 0 1px #fff inset;\n  box-shadow: 0 0 1px #fff inset;\n  -webkit-transition: background-position 1s;\n  -moz-transition: background-position 1s;\n  transition: background-position 1s;\n  color: #fff;\n  background-image: url(" + __webpack_require__(7) + "), url(" + __webpack_require__(7) + "), -moz-radial-gradient(center bottom, circle, #59d0f4 0, rgba(89, 208, 244, 0) 100px), -moz-linear-gradient(#4fbbf7, #3faeeb);\n  background-image: url(" + __webpack_require__(7) + "), url(" + __webpack_require__(7) + "), -webkit-gradient(radial, 50% 100%, 0, 50% 100%, 100, from(#47c4f0), to(#9fe3fd)), -webkit-gradient(linear, 0% 0%, 0% 100%, from(#47c4f0), to(#9fe3fd));\n}\n.playAgain:hover {\n  background-image: url(" + __webpack_require__(7) + "), url(" + __webpack_require__(7) + "), -moz-radial-gradient(center bottom, circle, #6dd9fa 0, rgba(109, 217, 250, 0) 100px), -moz-linear-gradient(#63c7fe, #58bef7);\n  background-image: url(" + __webpack_require__(7) + "), url(" + __webpack_require__(7) + "), -webkit-gradient(radial, 50% 100%, 0, 50% 100%, 100, from(#6dd9fa), to(rgba(109, 217, 250, 0))), -webkit-gradient(linear, 0% 0%, 0% 100%, from(#63c7fe), to(#58bef7));\n  background-position: top left;\n  background-position: top left, bottom right, 0 0, 0 0;\n}\nselect.select-cell-num {\n  width: 80px;\n  height: 40px;\n  line-height: 40px;\n  padding-right: 20px;\n  text-indent: 4px;\n  text-align: left;\n  vertical-align: middle;\n  box-shadow: inset 0 0 3px #606060;\n  border: 1px solid #acacac;\n  -moz-border-radius: 6px;\n  -webkit-border-radius: 6px;\n  border-radius: 6px;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  appearance: none;\n  font-family: Arial, Calibri, Tahoma, Verdana;\n  font-size: 18px;\n  font-weight: 500;\n  color: #f56a81;\n  cursor: pointer;\n  outline: none;\n}\nselect.select-cell-num option {\n  padding: 4px 10px 4px 10px;\n  font-size: 11pt;\n  font-weight: normal;\n}\nselect.select-cell-num option:hover {\n  background: #61ccfd;\n  padding-left: 20px;\n}\nselect.select-cell-num option[selected] {\n  font-weight: bold;\n}\nselect.select-cell-num option:nth-child(even) {\n  background-color: #f5f5f5;\n}\nlabel.lbl-select {\n  position: relative;\n  display: inline-block;\n  float: right;\n  margin-top: 15px;\n}\nlabel.lbl-select::after {\n  content: \"\\25BC\";\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  width: 20px;\n  line-height: 40px;\n  vertical-align: middle;\n  text-align: center;\n  color: rgba(235, 67, 35, 0.75);\n  -moz-border-radius: 0 6px 6px 0;\n  -webkit-border-radius: 0 6px 6px 0;\n  border-radius: 0 6px 6px 0;\n  pointer-events: none;\n}\n", ""]);
+	exports.push([module.id, "body,\nhtml {\n  font-family: \"Clear Sans\", \"Helvetica Neue\", Arial, sans-serif;\n  padding: 0;\n  margin: 0;\n}\n.header {\n  margin-top: 20px;\n}\n.grid-container {\n  -webkit-box-ordinal-group: 2;\n  -webkit-order: 1;\n  -ms-flex-order: 1;\n  order: 1;\n}\n.wrapper-for-4 {\n  width: 450px;\n  margin: 0 auto;\n  position: relative;\n}\n.wrapper-for-5 {\n  width: 560px;\n  margin: 0 auto;\n  position: relative;\n}\n.wrapper-for-6 {\n  width: 670px;\n  margin: 0 auto;\n  position: relative;\n}\n.wrapper-for-7 {\n  width: 780px;\n  margin: 0 auto;\n  position: relative;\n}\n.wrapper-for-8 {\n  width: 890px;\n  margin: 0 auto;\n  position: relative;\n}\n.title {\n  color: rgba(235, 67, 35, 0.75);\n  font-size: 36px;\n}\n.score {\n  position: absolute;\n  right: 0;\n  top: 0;\n}\n.nowScore,\n.bestScore {\n  position: relative;\n  display: inline-block;\n  background: rgba(37, 172, 162, 0.75);\n  padding: 15px 40px;\n  font-size: 25px;\n  height: 25px;\n  line-height: 47px;\n  font-weight: bold;\n  border-radius: 3px;\n  color: white;\n  margin-top: 8px;\n  text-align: center;\n}\n.nowScore:after,\n.bestScore:after {\n  position: absolute;\n  width: 100%;\n  top: 10px;\n  left: 0;\n  text-transform: uppercase;\n  font-size: 13px;\n  line-height: 13px;\n  text-align: center;\n  color: #fff;\n}\n.nowScore {\n  margin-right: 5px;\n}\n.nowScore:after {\n  content: 'score';\n}\n.bestScore:after {\n  content: 'bestScore';\n}\n.grid-cell {\n  width: 100px;\n  height: 100px;\n  margin: 5px;\n  line-height: 90px;\n  display: inline-block;\n  font-size: 55px;\n  font-weight: bold;\n  text-align: center;\n  vertical-align: middle;\n  border-radius: 7px;\n  color: #fff;\n  background-color: #badad9;\n}\n.num-cell {\n  width: 100px;\n  height: 100px;\n  margin: 5px;\n  line-height: 90px;\n  display: inline-block;\n  font-size: 55px;\n  text-align: center;\n  vertical-align: middle;\n  border-radius: 7px;\n  color: #fff;\n  position: absolute;\n  font-weight: bold;\n  /*-webkit-transition:all 5s ease-in-out;*/\n}\n.container-for-4 {\n  width: 440px;\n  height: 440px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.container-for-5 {\n  width: 550px;\n  height: 550px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.container-for-6 {\n  width: 660px;\n  height: 660px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.container-for-7 {\n  width: 770px;\n  height: 770px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.container-for-8 {\n  width: 880px;\n  height: 880px;\n  padding: 5px;\n  background-color: #cce4db;\n  border-radius: 7px;\n  outline: none;\n  position: relative;\n}\n.cell-new {\n  -webkit-animation-duration: 0.2s;\n  animation-duration: 0.2s;\n  -webkit-animation-name: newTile;\n  animation-name: newTile;\n  -webkit-animation-fill-mode: forwards;\n  animation-fill-mode: forwards;\n  -webkit-animation-delay: 0.15s;\n  animation-delay: 0.15s;\n  -webkit-transform: scale(0);\n  -ms-transform: scale(0);\n  transform: scale(0);\n  -webkit-animation-delay: 0.5s;\n  animation-delay: 0.5s;\n}\n@-webkit-keyframes newTile {\n  from {\n    -webkit-transform: scale(0);\n    transform: scale(0);\n  }\n  to {\n    -webkit-transform: scale(1);\n    transform: scale(1);\n  }\n}\n@keyframes newTile {\n  from {\n    -webkit-transform: scale(0);\n    transform: scale(0);\n  }\n  to {\n    -webkit-transform: scale(1);\n    transform: scale(1);\n  }\n}\n.cell-merged {\n  z-index: 20;\n  -webkit-animation: pop 200ms ease 100ms;\n  -moz-animation: pop 200ms ease 100ms;\n  animation: pop 200ms ease 100ms;\n  -webkit-animation-fill-mode: backwards;\n  -moz-animation-fill-mode: backwards;\n  animation-fill-mode: backwards;\n}\n@-webkit-keyframes pop {\n  0% {\n    -webkit-transform: scale(0);\n    -moz-transform: scale(0);\n    transform: scale(0);\n  }\n  50% {\n    -webkit-transform: scale(1.2);\n    -moz-transform: scale(1.2);\n    transform: scale(1.2);\n  }\n  100% {\n    -webkit-transform: scale(1);\n    -moz-transform: scale(1);\n    transform: scale(1);\n  }\n}\n@-moz-keyframes pop {\n  0% {\n    -webkit-transform: scale(0);\n    -moz-transform: scale(0);\n    transform: scale(0);\n  }\n  50% {\n    -webkit-transform: scale(1.2);\n    -moz-transform: scale(1.2);\n    transform: scale(1.2);\n  }\n  100% {\n    -webkit-transform: scale(1);\n    -moz-transform: scale(1);\n    transform: scale(1);\n  }\n}\n@keyframes pop {\n  0% {\n    -webkit-transform: scale(0);\n    -moz-transform: scale(0);\n    transform: scale(0);\n  }\n  50% {\n    -webkit-transform: scale(1.2);\n    -moz-transform: scale(1.2);\n    transform: scale(1.2);\n  }\n  100% {\n    -webkit-transform: scale(1);\n    -moz-transform: scale(1);\n    transform: scale(1);\n  }\n}\n.cell-color-2 {\n  background: #66c9ff;\n  border-color: #FAF8EF;\n}\n.cell-color-4 {\n  background: #f56a81;\n  border-color: #EAE0C8;\n}\n.cell-color-8 {\n  background: #490A3D;\n  border-color: #F59563;\n}\n.cell-color-16 {\n  background: #355C7D;\n  border-color: #3399ff;\n}\n.cell-color-32 {\n  background: #0CA5B0;\n  border-color: #ffa333;\n}\n.cell-color-64 {\n  background: #00C176;\n  border-color: #cef030;\n}\n.cell-color-128 {\n  background: #E21B5A;\n  border-color: #E8D8CE;\n}\n.cell-color-256 {\n  background: #109B81;\n  border-color: #990303;\n}\n.cell-color-512 {\n  background: #E21B5A;\n  border-color: #6BA5DE;\n}\n.cell-color-1024 {\n  background: #E21B5A;\n  border-color: #DCAD60;\n}\n.cell-color-2048 {\n  background: #E21B5A;\n  border-color: #B60022;\n}\n.playAgain {\n  position: relative;\n  text-decoration: none !important;\n  display: inline-block;\n  cursor: pointer;\n  padding: 10px;\n  margin-bottom: 20px;\n  background-repeat: no-repeat;\n  background-position: bottom left;\n  background-image: url(" + __webpack_require__(10) + ");\n  background-position: bottom left, top right, 0 0, 0 0;\n  font-size: 24px;\n  -moz-border-radius: 8px;\n  -webkit-border-radius: 8px;\n  border-radius: 8px;\n  -moz-box-shadow: 0 0 1px #fff inset;\n  -webkit-box-shadow: 0 0 1px #fff inset;\n  box-shadow: 0 0 1px #fff inset;\n  -webkit-transition: background-position 1s;\n  -moz-transition: background-position 1s;\n  transition: background-position 1s;\n  color: #fff;\n  background-image: url(" + __webpack_require__(10) + "), url(" + __webpack_require__(10) + "), -moz-radial-gradient(center bottom, circle, #59d0f4 0, rgba(89, 208, 244, 0) 100px), -moz-linear-gradient(#4fbbf7, #3faeeb);\n  background-image: url(" + __webpack_require__(10) + "), url(" + __webpack_require__(10) + "), -webkit-gradient(radial, 50% 100%, 0, 50% 100%, 100, from(#47c4f0), to(#9fe3fd)), -webkit-gradient(linear, 0% 0%, 0% 100%, from(#47c4f0), to(#9fe3fd));\n}\n.playAgain:hover {\n  background-image: url(" + __webpack_require__(10) + "), url(" + __webpack_require__(10) + "), -moz-radial-gradient(center bottom, circle, #6dd9fa 0, rgba(109, 217, 250, 0) 100px), -moz-linear-gradient(#63c7fe, #58bef7);\n  background-image: url(" + __webpack_require__(10) + "), url(" + __webpack_require__(10) + "), -webkit-gradient(radial, 50% 100%, 0, 50% 100%, 100, from(#6dd9fa), to(rgba(109, 217, 250, 0))), -webkit-gradient(linear, 0% 0%, 0% 100%, from(#63c7fe), to(#58bef7));\n  background-position: top left;\n  background-position: top left, bottom right, 0 0, 0 0;\n}\nselect.select-cell-num {\n  width: 80px;\n  height: 40px;\n  line-height: 40px;\n  padding-right: 20px;\n  text-indent: 4px;\n  text-align: left;\n  vertical-align: middle;\n  box-shadow: inset 0 0 3px #606060;\n  border: 1px solid #acacac;\n  -moz-border-radius: 6px;\n  -webkit-border-radius: 6px;\n  border-radius: 6px;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n  appearance: none;\n  font-family: Arial, Calibri, Tahoma, Verdana;\n  font-size: 18px;\n  font-weight: 500;\n  color: #f56a81;\n  cursor: pointer;\n  outline: none;\n}\nselect.select-cell-num option {\n  padding: 4px 10px 4px 10px;\n  font-size: 11pt;\n  font-weight: normal;\n}\nselect.select-cell-num option:hover {\n  background: #61ccfd;\n  padding-left: 20px;\n}\nselect.select-cell-num option[selected] {\n  font-weight: bold;\n}\nselect.select-cell-num option:nth-child(even) {\n  background-color: #f5f5f5;\n}\nlabel.lbl-select {\n  position: relative;\n  display: inline-block;\n  float: right;\n  margin-top: 15px;\n}\nlabel.lbl-select::after {\n  content: \"\\25BC\";\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  width: 20px;\n  line-height: 40px;\n  vertical-align: middle;\n  text-align: center;\n  color: rgba(235, 67, 35, 0.75);\n  -moz-border-radius: 0 6px 6px 0;\n  -webkit-border-radius: 0 6px 6px 0;\n  border-radius: 0 6px 6px 0;\n  pointer-events: none;\n}\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 6 */
+/* 9 */
 /***/ function(module, exports) {
 
 	/*
@@ -609,13 +778,13 @@
 
 
 /***/ },
-/* 7 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "a81cd9bd20cfa0372cd383433678cd62.png"
 
 /***/ },
-/* 8 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
