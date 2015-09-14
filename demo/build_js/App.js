@@ -78,12 +78,12 @@
 	
 	__webpack_require__(7);
 	
-	alert('npp');
-	
 	var React2048 = (function (_React$Component) {
 	    _inherits(React2048, _React$Component);
 	
 	    function React2048() {
+	        var _this = this;
+	
 	        _classCallCheck(this, React2048);
 	
 	        _get(Object.getPrototypeOf(React2048.prototype), 'constructor', this).apply(this, arguments);
@@ -91,16 +91,15 @@
 	        this.state = {
 	            gameData: new _jsLogicJs2['default']()
 	        };
+	
+	        this.handleNewGame = function (e) {
+	            _this.setState({
+	                gameData: new _jsLogicJs2['default']()
+	            });
+	        };
 	    }
 	
 	    _createClass(React2048, [{
-	        key: 'handleNewGame',
-	        value: function handleNewGame() {
-	            this.setState({
-	                gameData: new _jsLogicJs2['default']()
-	            });
-	        }
-	    }, {
 	        key: 'handleKeyDown',
 	        value: function handleKeyDown(event) {
 	            event.preventDefault;
@@ -115,12 +114,20 @@
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            window.addEventListener('keydown', this.handleKeyDown);
+	            var _this2 = this;
+	
+	            window.addEventListener('keydown', function (e) {
+	                _this2.handleKeyDown(e);
+	            });
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {
-	            window.removeEventListener('keydown', this.handleKeyDown);
+	            var _this3 = this;
+	
+	            window.removeEventListener('keydown', function (e) {
+	                _this3.handleKeyDown(e);
+	            });
 	        }
 	    }, {
 	        key: 'render',
@@ -180,7 +187,6 @@
 	'use strict';
 	
 	var globalSize = 4;
-	
 	var Game = function Game() {
 	    this.score = 0;
 	    this.size = globalSize;
@@ -441,19 +447,20 @@
 	    _inherits(CellSelect, _React$Component3);
 	
 	    function CellSelect() {
+	        var _this = this;
+	
 	        _classCallCheck(this, CellSelect);
 	
 	        _get(Object.getPrototypeOf(CellSelect.prototype), 'constructor', this).apply(this, arguments);
+	
+	        this.valueSelect = function (event) {
+	            _this.props.gameData.setSize(event.target.value);
+	            _this.props.gameData.focusGame();
+	            _this.props.handleNewGame();
+	        };
 	    }
 	
 	    _createClass(CellSelect, [{
-	        key: 'valueSelect',
-	        value: function valueSelect(event) {
-	            this.props.gameData.setSize(event.target.value);
-	            this.props.gameData.focusGame();
-	            this.props.handleNewGame();
-	        }
-	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return React.createElement(
@@ -582,17 +589,14 @@
 	            var _this = this;
 	
 	            var nums = [];
-	
 	            this.props.gd.map(function (row, keyRow) {
 	                row.map(function (el, keyCol) {
 	                    var keymark = keyCol + '-' + keyRow + '-' + _this.props.gd[keyRow][keyCol].value;
 	                    if (el.value > 0) {
 	                        nums.push(React.createElement(NumCell, { gameData: el, keymark: keymark, key: keymark }));
 	                    }
-	                    return nums;
 	                });
 	            });
-	
 	            return React.createElement(
 	                'div',
 	                { className: 'num-container' },
@@ -630,7 +634,7 @@
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            var gameData = this.props.gameData;
-	            var elmt = this.getDOMNode();
+	            var elmt = React.findDOMNode(this);;
 	            var left = this.numCellPos(gameData.column);
 	            var top = this.numCellPos(gameData.row);
 	            this.animationFn(elmt, left, 'left');
